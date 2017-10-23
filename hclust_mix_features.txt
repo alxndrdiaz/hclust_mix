@@ -1,0 +1,29 @@
+Modifications to the original code hclust.py
+- The original code is in the hclust.zip file
+- Modified file hclust.py is in the folder hclust within the DATOS_PRUEBA (/home/alex/Desktop/Tesis) folder
+
+[1] First modification:
+Save the images to a folder instead of showing them. In the original code, only 
+
+figure()	
+
+is used to show the plot, however, we need to save each image to a folder. 
+
+
+The first output images do NOT have the .png extension, so this must be corrected:
+
+plt.savefig('5_PCA_landscape.png', format='png')
+
+
+[2] A single file or multiple files containing each simulated state s, should be recovered. These output files are requiered to have the same format in order to create an adequate comparison analysis among states.
+
+Strategy:
+- Identify the function generating simulated states s.
+- Create a funtion that recovers simulated vectors. 
+
+In the function hopfield_ask, few lines were added in order to obtain an output file
+
+Generating a similarity matrix is required: this was solved using scikit-learn library (sklearn) library and numpy. If the similarity matrix 
+is used as input, the run times are better, but the interpreation of the results will be different because this matrix resembles a mean 
+correlation matrix over genes, and does not uses information of conditions or stages.
+
