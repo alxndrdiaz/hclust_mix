@@ -7,6 +7,12 @@ network.
 
 Version : 1.00
 Author  : Stefan Maetschke
+
+hclust_mix is only a version that produces:
+- output text files for further analysis
+- images as .png files
+- it also includes the option to incorporate the similarity matrix as other pre-processing option
+Alexander Ramos Diaz
 """
 
 "Modification 1 - Alex"
@@ -67,7 +73,7 @@ def z_score_transform(samples):
     """sample-wise z-score normalization of data.
        samples -- expression matrix (samples in rows)
        returns z-score normalized expression matrix
-    """      
+    """     
     def save_std(sample):
         s = std(sample)
         return 1.0 if s<1e-5 else s
@@ -185,7 +191,7 @@ def hopfield_ask(W, states, n=30):
         states = new_states
         simvectors = np.array(states)
         np.savetxt("simvectors.csv", simvectors, delimiter=',')
-    return states 
+    return states
 
 #NEW lines for generating output files (Alex):
 #Recovers the simulated vectors in order to use them for later comparison,
@@ -193,7 +199,7 @@ def hopfield_ask(W, states, n=30):
 #First approach is using numpy
 #def output_simvectors(states):
     #simvectors = np.array(states)
-    #np.savetxt("simvectors.txt", simvectors, delimiter=',') 
+    #np.savetxt("simvectors.txt", simvectors, delimiter=',')
 
 def hopfield_energy(W, samples):
     """Energy function of the Hopfield network.
@@ -438,8 +444,3 @@ if __name__ == "__main__":
         print_usage()
     else:
         main(args)
-
-
-
-
-
