@@ -1,3 +1,4 @@
+author: Alexander Ramos Diaz
 Modifications to the original code hclust.py
 - The original code is in the hclust.zip file
 - Modified file hclust.py is in the folder hclust within the DATOS_PRUEBA (/home/alex/Desktop/Tesis) folder
