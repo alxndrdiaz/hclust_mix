@@ -8,24 +8,22 @@ network.
 Version : 1.00
 Author  : Stefan Maetschke
 
-hclust_mix is only a version that produces:
+hclust_mix is only a version of hclust that produces:
 - output text files for further analysis
 - images as .png files
-- it also includes the option to incorporate the similarity matrix as other pre-processing option
 Alexander Ramos Diaz
 """
 
-"Modification 1 - Alex"
-"The order of how libraries are listed from 1 to 4 allows image files to be saved"
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~:
+#The order of how libraries are listed from 1 to 4 allows image output files.
 import matplotlib #1
 matplotlib.use('Agg') #2
 from pylab import * #3
 import matplotlib.pyplot as plt #4
-import numpy as np #7 <<--could be used for the alternative method to create output vectors file
+import numpy as np
 import time
-#import pandas as pd #5 <<--pandas will help in generating and processing the output vectors file
-#import StringIO #6 <<--required for pandas
-
+import pandas as pd
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -34,7 +32,7 @@ def load_data(filepath, do_norm, do_log='AUTO'):
        First row with sample ids is ignored.
        Second row needs to contains subtype labels
        Columns will be sorted according to subtype label.
-       filepath -- expression data in TSV format
+       filepath -- expression data in tab format
        do_norm -- normalizes expression data if true
        do_log  -- log2 transformation of expression data if true.
                   if do_log=='AUTO' log2 transformation is performed if
@@ -42,6 +40,15 @@ def load_data(filepath, do_norm, do_log='AUTO'):
        returns a tuple (sample_labels, gene_names, expression_matrix)
        where expression matrix contains samples in rows and genes in columns
     """
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #defining global variable genenames and specieslabel
+    global genenames
+    global specieslabel
+
+   #this label will be used for output file (specific of the data set):
+    specieslabel = filepath[9:11]
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     def trim(label): return label.replace('"','')
     print "Loading data ..."
     with open(filepath) as f:
@@ -52,6 +59,12 @@ def load_data(filepath, do_norm, do_log='AUTO'):
     labels = map(trim,mat[0][1:])
     data = array([map(float,row[1:]) for row in mat[1:]], dtype=float).T
     if do_norm: data = normalize(data, do_log)
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~:
+
+    #assigns the list genes to the global list genenames for further use
+    genenames = genes
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     return labels, genes, data
 
 
@@ -73,7 +86,7 @@ def z_score_transform(samples):
     """sample-wise z-score normalization of data.
        samples -- expression matrix (samples in rows)
        returns z-score normalized expression matrix
-    """     
+    """
     def save_std(sample):
         s = std(sample)
         return 1.0 if s<1e-5 else s
@@ -184,22 +197,13 @@ def hopfield_ask(W, states, n=30):
        n -- number of recall steps to perform
        returns states after recall
     """
-    #print "states data type is ", type(states) -->> ndarray
+
     states = signum(states)
     for _ in xrange(n):
         new_states = signum(dot(states,W))
         states = new_states
-        simvectors = np.array(states)
-        np.savetxt("simvectors.csv", simvectors, delimiter=',')
     return states
 
-#NEW lines for generating output files (Alex):
-#Recovers the simulated vectors in order to use them for later comparison,
-#Could require a data conversion"
-#First approach is using numpy
-#def output_simvectors(states):
-    #simvectors = np.array(states)
-    #np.savetxt("simvectors.txt", simvectors, delimiter=',')
 
 def hopfield_energy(W, samples):
     """Energy function of the Hopfield network.
@@ -224,13 +228,60 @@ def plot_relaxation(data, n=10, prune=None):
     imshow(samples, origin="lower", interpolation="nearest", cmap=cm.RdYlGn_r)
     axis('off')
     states = signum(samples)
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #defines empty list
+    relaxation=[]
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     for i in xrange(n):
         subplot(1, n+1, i+2)
         axis('off')
         imshow(states, origin="lower", interpolation="nearest", cmap=cm.RdYlGn_r)
         new_states = signum(dot(states,W))
         states = new_states
-    plt.savefig('1_relaxation.png', format='png')
+   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        #generates output files for each state matrix and a concatenated matrix:
+        statefilename =  specieslabel + '_S' + str(i+1) + '.st'
+        statematrix = states.transpose()
+        statematrix = pd.DataFrame(statematrix , index=genenames, columns=None)
+        statematrix.to_csv(statefilename, sep="\t")
+        relaxation.append(states)
+        relaxed_states = np.asarray(relaxation)
+   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #finding relaxed states
+    print
+    print "--------------RELAXATION INFORMATION--------------"
+    print
+    print "relaxed_states is ", type(relaxed_states)
+    print "relaxed_states shape is", relaxed_states.shape
+    print "stage number = ", relaxed_states.shape[1]
+    print "gene number = ", relaxed_states.shape[2]
+    print "state matrices (relaxation steps) =", relaxed_states.shape[0]
+    print
+
+    #computes the new dimension (shape) components for reshaping
+    dim1 = (relaxed_states.shape[0])*(relaxed_states.shape[1])
+    dim2 = relaxed_states.shape[2]
+
+    #generates a two-dimensional array(matrix)
+    relaxed_states = np.reshape(relaxed_states,newshape=(dim1,dim2))
+    print "relaxed_states matrix contains all the state matrices."
+    print "matrix dimension = ", relaxed_states.shape
+    print
+
+    #generates data frame to format an output file
+    relaxed_states = pd.DataFrame(relaxed_states, index=None, columns=genenames)
+
+    #creates a .st output file with all the relaxation matrices
+    relaxedname = specieslabel + '_allstates' + '.st'
+    relaxed_states.to_csv(relaxedname, sep="\t")
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #generates image for relaxed states
+    image_1 = '1_relaxation_' + specieslabel + '.png'
+    plt.savefig(image_1, format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def density(W):
     """Compute fraction of non-zero entries in weigth matrix.
@@ -257,7 +308,12 @@ def plot_weight_matrix(data, prune=None, bin=True):
     imshow(W, vmin=-w, vmax=+w, origin="upper", interpolation="nearest", cmap=cm.RdYlBu)
     axis('off')
     colorbar()
-    plt.savefig('2_weight_matrix.png', format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #generates image for weight matrix
+    image_2 = '2    _weight_matrix_' + specieslabel + '.png'
+    plt.savefig(image_2, format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 def plot_pruning(data, alpha=0.2):
     """Plot adjusted rand index (ARI), estimated rand index (ERI) and
@@ -297,7 +353,11 @@ def plot_pruning(data, alpha=0.2):
     ylabel('TRI, ERI, Density')
     legend(['TRI','ERI','Density'])
     gca().set_ylim(ymin=-0.05, ymax=1.05)
-    plt.savefig('3_pruning_threesholds.png', format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #generates image for pruning threesholds
+    image_3 = '3_pruning_threesholds_' + specieslabel + '.png'
+    plt.savefig(image_3, format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     return t
 
 
@@ -361,16 +421,72 @@ def plot_landscape(data, res=50, prune=None):
     states = samples.copy()
     trajectories2d = [model2D.transform(samples)]
     trajectories = [states]
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #this list will storage the states:
+    track=[]
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     for i in xrange(10):
         states = hopfield_ask(W, states, n=1)
         trajectories.append(states)
+        track.append(states)
+        newtrack = np.asarray(track)
         trajectories2d.append(model2D.transform(states))
     samples_a = trajectories[-1]
     samples_a_2d = trajectories2d[-1]
     samples2d = trajectories2d[0]
     trajectories = vstack(trajectories)
     trajectories2d = hstack(trajectories2d)
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    print
+    print "------------LANDSCAPE INFORMATION--------------"
+    print
+    print "newtrack", type(newtrack), newtrack.shape
+    print "dim1(newtrack) = ", newtrack.shape[0]
+    print "dim2(newtrack) = ", newtrack.shape[1]
+    print "dim3(newtrack) = ", newtrack.shape[2]
+    print
 
+    #computes the new dimension (shape) components for reshaping
+    component1 = (newtrack.shape[0])*(newtrack.shape[1])
+    component2 = newtrack.shape[2]
+    print "component1 is ", type(component1)
+    print "component2 is ", type(component2)
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    newtrack = np.reshape(newtrack,newshape=(component1,component2))
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    print
+    print "Data types for output file (samples):"
+
+    #shows objects' names and dimensions
+    print "samples_a", type(samples_a), samples_a.shape
+    print "samples_a_2d", type(samples_a_2d), samples_a_2d.shape
+    print "samples2d", type(samples2d), samples2d.shape
+    print "trajectories", type(trajectories), trajectories.shape
+    print "trajectories2d", type(trajectories2d), trajectories2d.shape
+    print "track", type(track)
+    print "newtrack", type(newtrack), newtrack.shape
+    print "-----------------------------------------------"
+    print
+
+    #generates data frames to build output tables
+    output_samples_a =  pd.DataFrame(samples_a, index=None, columns=None)
+    output_samples_a_2d =  pd.DataFrame(samples_a_2d, index=None, columns=None)
+    output_samples2d =  pd.DataFrame(samples2d, index=None, columns=None)
+    output_trajectories = pd.DataFrame(trajectories, index=None, columns=None)
+    output_trajectories2d = pd.DataFrame(trajectories2d, index=None, columns=None)
+    output_track = pd.DataFrame(newtrack, index=None, columns=genenames)
+
+
+    #generates output files in .trk format
+    output_samples_a.to_csv(specieslabel + '_samples_a.trk', sep="\t")
+    output_samples_a_2d.to_csv(specieslabel + '_samples_a_2d.trk', sep="\t")
+    output_samples2d.to_csv(specieslabel + '_samples_2d.trk', sep="\t")
+    output_trajectories.to_csv(specieslabel + '_trajectories.trk', sep="\t")
+    output_trajectories2d.to_csv(specieslabel + '_trajectories2d.trk', sep="\t")
+    output_track.to_csv(specieslabel + '_output_track.trk', sep="\t")
+    print
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     mesh = create_mesh_points(model2D, W, res)
     points = vstack((mesh,trajectories))
     energies = hopfield_energy(W, points)
@@ -384,7 +500,12 @@ def plot_landscape(data, res=50, prune=None):
     ax = figure().gca(projection='3d')
     ax.plot_surface(x,y,z, rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=0, alpha=0.9)
     ax.set_xlabel('1st pc'); ax.set_ylabel('2nd pc'); ax.set_zlabel('Energy')
-    plt.savefig('4_energy_landscape.png', format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #generates image for energy(pseudo-potential) landscape
+    image_4 = '4_energy_landscape_' + specieslabel + '.png'
+    plt.savefig(image_4, format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
     ax = figure().gca(projection='3d')
     ax.plot_wireframe(x,y,z, linestyles='solid', colors=(0.5,0.5,0.5,0.5), alpha=0.5)
@@ -392,8 +513,12 @@ def plot_landscape(data, res=50, prune=None):
     samples_e = hopfield_energy(W, samples)
     scatter_plot3d(ax, samples2d, samples_e, cidx)
     samples_a_e = hopfield_energy(W, samples_a)
-    ax.scatter(samples_a_2d[:,0], samples_a_2d[:,1], samples_a_e, c='g', s=100)
-    plt.savefig('5_PCA_landscape.png', format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #generates image for energy(pseudo-potential) landscape
+    image_5 = '5_PCA_landscape_' + specieslabel + '.png'
+    plt.savefig(image_5, format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 
     fig = figure()
@@ -405,9 +530,14 @@ def plot_landscape(data, res=50, prune=None):
         xt,yt = t[::2],t[1::2]
         plot(xt,yt,'-'+idx2color(i), alpha=0.5)
     plot(samples_a_2d[:,0], samples_a_2d[:,1], 'og', markersize=10, alpha=0.5)
-    plt.savefig('6_PCA_contour_plot.png', format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #generates image for energy(pseudo-potential) landscape
+    image_6 = '6_PCA_contour_plot_' + specieslabel + '.png'
+    plt.savefig(image_6, format='png')
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-"ENDOFPLOTS-----------------------------------------------------------------------------------------------------------------------------------"
+
+#~ENDOFPLOTS--------------------------------------------------------------------
 
 
 def print_usage():
@@ -422,6 +552,9 @@ def main(args):
     """Load data and create all plots.
        args -- command line arguments
     """
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    print
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     print "running..."
     data = load_data(args[1], '-n' in args)
     if '-f' in args: data = feature_selection(data)
@@ -429,11 +562,11 @@ def main(args):
     plot_relaxation(data, prune = t, n=8)
     plot_weight_matrix(data, prune = t, bin=False)
     plot_landscape(data, prune = t)
-    print "finished."
-    print "run time =", time.clock()
+    print
+    print "Finished."
+    print "Run time =", time.clock()
+    print
     show()
-
-#time.clock() prints the run time
 
 
 
