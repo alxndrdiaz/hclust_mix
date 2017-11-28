@@ -1,4 +1,4 @@
-#!/bin/bash
+	#!/bin/bash
 
 #~author: Alexander Ramos Diaz.
 #~description: this script takes all the .tsv input files and send them to hclust_mix one by one, then creates a folder for each file with 
