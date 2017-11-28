@@ -1,4 +1,4 @@
-"""
+    """
 Hopfield clustering
 
 Reads expression data, creates a Hopfield network and creates various plots
@@ -12,7 +12,17 @@ hclust_mix is only a version of hclust that produces:
 - output text files for further analysis
 - images as .png files
 Alexander Ramos Diaz
+
+.st (state matrices) and .trk (plotted tracks in the PCA) files are outputs for
+further analysis such as attractos state identification and state comparison.
+
 """
+#Python 2.7.6 and:
+#numpy 1.8.2
+#scipy 0.13.3
+#matplotlib 0.19.0
+#pandas 0.17.1
+#scikit-learn 0.19.0
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~:
 #The order of how libraries are listed from 1 to 4 allows image output files.
