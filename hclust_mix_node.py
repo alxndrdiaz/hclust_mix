@@ -8,11 +8,24 @@ network.
 Version : 1.00
 Author  : Stefan Maetschke
 
-hclust_mix is only a version of hclust that produces:
+hclust_mix_node is only a version of hclust that produces:
 - output text files for further analysis
 - images as .png files
+
+This version works in clusters, by using loop_hclustmix_node.sh (available in the
+extratools folder) you can run this code in a cluster.
+
+.st (state matrices) and .trk (plotted tracks in the PCA) files are outputs for
+further analysis such as attractos state identification and state comparison.
+
 Alexander Ramos Diaz
 """
+#Python 2.7.6 and:
+#numpy 1.8.2
+#scipy 0.13.3
+#matplotlib 0.19.0
+#pandas 0.17.1
+#scikit-learn 0.19.0
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~:
 #The order of how libraries are listed from 1 to 4 allows image output files.
