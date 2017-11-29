@@ -1,11 +1,14 @@
 #!/bin/bash
+#PBS -N hopfield_analysis
+#PBS -l nodes=1:ppn=10,vmem=64gb,walltime=05:00:00
+#PBS -q default
+#PBS -V
+#PBS -o hopfield.out
+#PBS -e hopfield.err
 
-#~author: Alexander Ramos Diaz.
-#~description: this script takes all the .tsv input files and send them to hclust_mix one by one, then creates a folder for each file with 
-#the original input file and the results.
-# ~~~~~~You are FREE to use or adapt this code for your own project~~~~~~~~~
+module load Python/2.7.6
 
-
+	
 for inputfile in *.tsv 
 do
  #obtains NCBI code + species code only:
@@ -13,7 +16,7 @@ do
  specieslabel=$(echo $inputfile | cut -c10-11)
  python hclust_mix_node.py $inputfile -n 
  #moves the results to a new directory:
- foldername=$ncbiandspecies
+ foldername=$ncbiandspecies	
  mkdir $foldername
  mv $inputfile $foldername
  mv *.{png,st,trk} $foldername
@@ -27,4 +30,5 @@ do
  cd ..
 done 
 
- 
+
+
