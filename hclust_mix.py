@@ -14,7 +14,7 @@ hclust_mix is only a version of hclust that produces:
 Alexander Ramos Diaz
 
 .st (state matrices) and .trk (plotted tracks in the PCA) files are outputs for
-further analysis such as attractos state identification and state comparison.
+further analysis such as attractors state identification and state comparison.
 
 """
 #Python 2.7.6 and:
