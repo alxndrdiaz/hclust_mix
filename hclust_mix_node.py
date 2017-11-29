@@ -16,7 +16,7 @@ This version works in clusters, by using loop_hclustmix_node.sh (available in th
 extratools folder) you can run this code in a cluster.
 
 .st (state matrices) and .trk (plotted tracks in the PCA) files are outputs for
-further analysis such as attractos state identification and state comparison.
+further analysis such as attractors state identification and state comparison.
 
 Alexander Ramos Diaz
 """
