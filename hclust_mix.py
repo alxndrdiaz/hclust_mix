@@ -20,11 +20,11 @@ All lines starting with #~ are the commentaries of new modifications.
 #~ libraries: numpy 1.8.2; scipy 0.13.3; matplotlib 0.19.0; pandas 0.17.1; scikit-learn 0.19.0
 
 
-#~ order of libraries listed from 1 to 4 allows image output file
-import matplotlib #1
-matplotlib.use('Agg') #2
-from pylab import * #3
-import matplotlib.pyplot as plt #4
+#~ first four libraries allow image output files
+import matplotlib 
+matplotlib.use('Agg') 
+from pylab import * 
+import matplotlib.pyplot as plt
 import numpy as np
 import time
 import pandas as pd
