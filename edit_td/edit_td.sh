@@ -50,7 +50,7 @@ do
 done
 echo "Please open the edited_data folder to check updated time-course files."
 
-# moves all tab files to a folder called raw_data
+# moves all input .tab files to a folder
 mkdir raw_data
 echo
 for tabfile in *.{txt,tab}
