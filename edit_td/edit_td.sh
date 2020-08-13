@@ -40,7 +40,7 @@ done
 rm *.tmp
 
 # generates general information of the output and separated folders for raw data and edited data: 
-# moves all updated files to a folder called edited_data
+# moves all updated files to a folder
 mkdir edited_data
 echo "Updated files that can be used with hclust are:"
 for finalfile in *.tsv
@@ -49,7 +49,6 @@ do
   mv $finalfile edited_data
 done
 echo "Please open the edited_data folder to check updated time-course files."
-
 # moves all input .tab files to a folder
 mkdir raw_data
 echo
