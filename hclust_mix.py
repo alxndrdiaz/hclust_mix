@@ -51,7 +51,7 @@ def load_data(filepath, do_norm, do_log='AUTO'):
     specieslabel = filepath[9:11]
   
 
-    def trim(label): return label.replace('"','')
+def trim(label): return label.replace('"','')
     print "Loading data ..."
     with open(filepath) as f:
         f.next() #skip sample id
@@ -61,8 +61,6 @@ def load_data(filepath, do_norm, do_log='AUTO'):
     labels = map(trim,mat[0][1:])
     data = array([map(float,row[1:]) for row in mat[1:]], dtype=float).T
     if do_norm: data = normalize(data, do_log)
-
-
     #~ assigns the list genes to the global list genenames
     genenames = genes
     return labels, genes, data
