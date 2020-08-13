@@ -12,18 +12,15 @@ hclust_mix is only a version of hclust that produces:
 - output .ats (attractor state) files containing each for further analysis
 - images as .png files
 All lines starting with #~ are the commentaries of new modifications.
-Alexander Ramos Diaz
 
 """
-#~ Python 2.7.6 and:
-#~ numpy 1.8.2
-#~ scipy 0.13.3
-#~ matplotlib 0.19.0
-#~ pandas 0.17.1
-#~ scikit-learn 0.19.0
 
 
-#~ The order of how libraries are listed from 1 to 4 allows image output files.
+#~ Python 2.7.6 
+#~ libraries: numpy 1.8.2; scipy 0.13.3; matplotlib 0.19.0; pandas 0.17.1; scikit-learn 0.19.0
+
+
+#~ order of libraries listed from 1 to 4 allows image output file
 import matplotlib #1
 matplotlib.use('Agg') #2
 from pylab import * #3
@@ -31,8 +28,6 @@ import matplotlib.pyplot as plt #4
 import numpy as np
 import time
 import pandas as pd
-#~  end of library import
-
 
 
 def load_data(filepath, do_norm, do_log='AUTO'):
@@ -49,14 +44,12 @@ def load_data(filepath, do_norm, do_log='AUTO'):
        where expression matrix contains samples in rows and genes in columns
     """
 
-    #~ defines global variable genenames and specieslabel
+    #~ auxiliary variables
     global genenames
     global specieslabel
-
-   #~ this label will be used for output file (specific of the data set of the project)
+    #~ label for output file (specific of the data set)
     specieslabel = filepath[9:11]
-   #~ end of additional global variables
-
+  
 
     def trim(label): return label.replace('"','')
     print "Loading data ..."
@@ -70,9 +63,8 @@ def load_data(filepath, do_norm, do_log='AUTO'):
     if do_norm: data = normalize(data, do_log)
 
 
-    #~ assigns the list genes to the global list genenames for further use
+    #~ assigns the list genes to the global list genenames
     genenames = genes
-
     return labels, genes, data
 
 
@@ -222,7 +214,7 @@ def hopfield_energy(W, samples):
     return array([-0.5*dot(dot(signum(s).T,W),signum(s)) for s in samples])
 
 
-#~ PLOTS AND ATTRACTOR IDENTIFICATION-------------------------------------------
+#~ plots and attractor identification 
 def plot_relaxation(data, n=10, prune=None):
     """Plot the relaxation of the state matrix over n steps.
        data -- tuple (labels, genes, samples) from load_data()
@@ -257,19 +249,19 @@ def plot_relaxation(data, n=10, prune=None):
             if vsum[j] != 0:
                states = new_states
             elif vsum[j] == 0:
-                 #~ identifies each attractor and generates each outputfile:
+                 #~ identifies each attractor and generates each outputfile
                  attractor = current_state[:,j]
                  attractor_name = specieslabel + '_attractor_at_' + str(j+1) + '_n=' + str(n) + '_' +'.ats'
                  attractor_position = [str(j+1)]
                  attractor_output = pd.DataFrame(attractor, index=genenames, columns=attractor_position)
                  attractor_output.to_csv(attractor_name, sep="\t")
                  break
-                 #~ attractor identification ends here.
+                 #~ attractor identification ends here
 
     #~ generates image for relaxed states
     image_1 = '1_relaxation_' + specieslabel + '.png' 
     plt.savefig(image_1, format='png')
-    #~ end of image generation
+    
 
 def density(W):
     """Compute fraction of non-zero entries in weigth matrix.
@@ -296,11 +288,9 @@ def plot_weight_matrix(data, prune=None, bin=True):
     imshow(W, vmin=-w, vmax=+w, origin="upper", interpolation="nearest", cmap=cm.RdYlBu)
     axis('off')
     colorbar()
-
     #~ generates image for weight matrix
     image_2 = '2    _weight_matrix_' + specieslabel + '.png'
     plt.savefig(image_2, format='png')
-    #~ end of image generation
 
 
 def plot_pruning(data, alpha=0.2):
@@ -341,11 +331,9 @@ def plot_pruning(data, alpha=0.2):
     ylabel('TRI, ERI, Density')
     legend(['TRI','ERI','Density'])
     gca().set_ylim(ymin=-0.05, ymax=1.05)
-
     #~ generates image for pruning threesholds
     image_3 = '3_pruning_threesholds_' + specieslabel + '.png'
     plt.savefig(image_3, format='png')
-    #~ end of image generation
     return t
 
 
@@ -436,9 +424,7 @@ def plot_landscape(data, res=50, prune=None):
     #~ generates image for energy(pseudo-potential) landscape
     image_4 = '4_energy_landscape_' + specieslabel + '.png'
     plt.savefig(image_4, format='png')
-    #~
-
-
+  
     ax = figure().gca(projection='3d')
     ax.plot_wireframe(x,y,z, linestyles='solid', colors=(0.5,0.5,0.5,0.5), alpha=0.5)
     ax.set_xlabel('1st pc'); ax.set_ylabel('2nd pc'); ax.set_zlabel('Energy')
@@ -449,9 +435,6 @@ def plot_landscape(data, res=50, prune=None):
     #~ generates image for energy(pseudo-potential) landscape
     image_5 = '5_PCA_landscape_' + specieslabel + '.png'
     plt.savefig(image_5, format='png')
-    #~ end of image generation
-
-
 
     fig = figure()
     imshow(z.T, extent=(-w,w,-w,w), origin='lower', cmap=cm.binary)
@@ -463,15 +446,11 @@ def plot_landscape(data, res=50, prune=None):
         plot(xt,yt,'-'+idx2color(i), alpha=0.5)
     plot(samples_a_2d[:,0], samples_a_2d[:,1], 'og', markersize=10, alpha=0.5)
 
-    #~ generates image for energy(pseudo-potential) landscape
+    #~ generates image for energy landscape
     image_6 = '6_PCA_contour_plot_' + specieslabel + '.png'
     plt.savefig(image_6, format='png')
-    #~ end of image generation
-
-
-#~ENDOFPLOTS--------------------------------------------------------------------
-
-
+    
+    
 def print_usage():
     """Print usage info"""
     print "hclust.py <filename> [-p -n -f]"
