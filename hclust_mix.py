@@ -57,7 +57,7 @@ def load_data(filepath, do_norm, do_log='AUTO'):
 
 
 def log2_transform(samples):
-    """gene-wise log2 transformation of data. Typically renuired for
+    """gene-wise log2 transformation of data. Typically required for
        single-channel data.
        samples -- expression matrix (samples in rows)
        returns log2 transformed expression matrix
@@ -241,7 +241,6 @@ def plot_relaxation(data, n=10, prune=None):
                  attractor_output.to_csv(attractor_name, sep="\t")
                  break
                  #~ attractor identification ends here
-
     #~ generates image for relaxed states
     image_1 = '1_relaxation_' + specieslabel + '.png' 
     plt.savefig(image_1, format='png')
@@ -405,7 +404,7 @@ def plot_landscape(data, res=50, prune=None):
     ax.plot_surface(x,y,z, rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=0, alpha=0.9)
     ax.set_xlabel('1st pc'); ax.set_ylabel('2nd pc'); ax.set_zlabel('Energy')
 
-    #~ generates image for energy(pseudo-potential) landscape
+    #~ generates image for energylandscape
     image_4 = '4_energy_landscape_' + specieslabel + '.png'
     plt.savefig(image_4, format='png')
   
@@ -416,7 +415,7 @@ def plot_landscape(data, res=50, prune=None):
     scatter_plot3d(ax, samples2d, samples_e, cidx)
     samples_a_e = hopfield_energy(W, samples_a)
 
-    #~ generates image for energy(pseudo-potential) landscape
+    #~ generates image for energy landscape with PCA 1,2 coordinates
     image_5 = '5_PCA_landscape_' + specieslabel + '.png'
     plt.savefig(image_5, format='png')
 
@@ -430,7 +429,7 @@ def plot_landscape(data, res=50, prune=None):
         plot(xt,yt,'-'+idx2color(i), alpha=0.5)
     plot(samples_a_2d[:,0], samples_a_2d[:,1], 'og', markersize=10, alpha=0.5)
 
-    #~ generates image for energy landscape
+    #~ generates image for energy landscape PCA contour plot
     image_6 = '6_PCA_contour_plot_' + specieslabel + '.png'
     plt.savefig(image_6, format='png')
     
@@ -452,7 +451,7 @@ def main(args):
     data = load_data(args[1], '-n' in args)
     if '-f' in args: data = feature_selection(data)
     t = plot_pruning(data) if '-p' in args else None
-    plot_relaxation(data, prune = t, n=1000)
+    plot_relaxation(data, prune = t, n=10)
     plot_weight_matrix(data, prune = t, bin=False)
     plot_landscape(data, prune = t)
     print
