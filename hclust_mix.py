@@ -229,17 +229,21 @@ def plot_relaxation(data, n=10, prune=None):
         vsum = np.sum(diffmatrix, axis=0)
         jrange = vsum.shape[0]
         jrange = xrange(jrange)
+        #~ list to generate attractors dataframe
+        ATTRACTORS = []
         for j in jrange:
             if vsum[j] != 0:
                states = new_states
             elif vsum[j] == 0:
-                 #~ identifies each attractor and generates each output file
-                 attractor = current_state[:,j]
-                 attractor_name = specieslabel + '_attractor_at_' + str(j+1) + '_n=' + str(n) + '_steps' +'.ats'
+                 #~ identifies each attractor and appends it to the list
+                 attractor_vector = current_state[:,j]               
                  attractor_position = [str(j+1)]
-                 attractor_output = pd.DataFrame(attractor, index=genes, columns=attractor_position)
-                 attractor_output.to_csv(attractor_name, sep="\t")
+                 attractor = pd.DataFrame(attractor_vector, index=genes, columns=attractor_position)
+                 ATTRACTORS.append(attractor)
                  #~ attractor identification ends here
+    #~ put all attractors together in one dataframe
+    all_attractors = pd.concat(ATTRACTORS, axis=1, sort=False)
+    all_attractors.to_csv(specieslabel + '_attractors' + '.tab', sep="\t")    
     #~ generates image for relaxed states
     image_1 = '1_relaxation_' + specieslabel + '.png' 
     plt.savefig(image_1, format='png')
@@ -403,7 +407,7 @@ def plot_landscape(data, res=50, prune=None):
     ax.plot_surface(x,y,z, rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=0, alpha=0.9)
     ax.set_xlabel('1st pc'); ax.set_ylabel('2nd pc'); ax.set_zlabel('Energy')
 
-    #~ generates image for energylandscape
+    #~ generates image for energy landscape
     image_4 = '4_energy_landscape_' + specieslabel + '.png'
     plt.savefig(image_4, format='png')
   
