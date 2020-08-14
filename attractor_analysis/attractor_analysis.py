@@ -3,7 +3,7 @@
 
 # takes the output attractors from hclust_mix in .ats format and analyze overrepresented and  underrepresented genes, which are the predictions of the 
 # identified attractors. It also compares attractors in order to determine if they are different and how they are structured, provides output files 
-# for further analysis (.txt files, inlcuding files containing genes per binary state: -1, +1 ; and a summary file).
+# for further analysis (.txt files, including files containing genes per binary state: -1, +1 ; and a summary file).
 
 import os
 import glob
@@ -39,13 +39,13 @@ for at in all_ats:
     under_gene_list =  underset.index.tolist() 
     unumber = len(under_gene_list)
     undernumbers.append(unumber)
-    undersetname =  attstage + "_attractor_" + "down.txt"
+    undersetname =  attstage + "_attractor_" + "low.txt"
     # search genes with binary state +1
     overset = attdata[attdata[attstage] == 1]  
     over_gene_list = overset.index.tolist()
     onumber = len(over_gene_list)
     overnumbers.append(onumber)
-    oversetname =  attstage + "_attractor_" + "up.txt"
+    oversetname =  attstage + "_attractor_" + "high.txt"
 
 # using the attractor list to create a file containing all attractors
 all_attractors = pd.concat(attlist, axis=1)
@@ -74,7 +74,7 @@ for i in iterate:
 
 itpairs = np.arange(len(pairs_repeated))
 updated_pairs = []
-for i in itpairs: # prints only the pair of attractors by selecting only odd positions
+for i in itpairs: 
     j = i + 1
     if j % 2 != 0:
        updated_pairs.append(pairs_repeated[j])
