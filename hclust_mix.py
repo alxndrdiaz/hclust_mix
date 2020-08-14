@@ -233,7 +233,7 @@ def plot_relaxation(data, n=10, prune=None):
             if vsum[j] != 0:
                states = new_states
             elif vsum[j] == 0:
-                 #~ identifies each attractor and generates each outputfile
+                 #~ identifies each attractor and generates each output file
                  attractor = current_state[:,j]
                  attractor_name = specieslabel + '_attractor_at_' + str(j+1) + '_n=' + str(n) + '_steps' +'.ats'
                  attractor_position = [str(j+1)]
