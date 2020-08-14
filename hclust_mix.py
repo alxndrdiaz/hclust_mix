@@ -15,10 +15,8 @@ All lines starting with #~ are the commentaries of new modifications.
 
 """
 
-
 #~ Python 2.7.6 
 #~ libraries: numpy 1.8.2; scipy 0.13.3; matplotlib 0.19.0; pandas 0.17.1; scikit-learn 0.19.0
-
 
 #~ first four libraries allow image output files
 import matplotlib 
@@ -29,6 +27,8 @@ import numpy as np
 import time
 import pandas as pd
 
+#~ label for output files (specific of the data set)
+specieslabel = 'test'
 
 def load_data(filepath, do_norm, do_log='AUTO'):
     """Load tab separated expression data.
@@ -43,15 +43,7 @@ def load_data(filepath, do_norm, do_log='AUTO'):
        returns a tuple (sample_labels, gene_names, expression_matrix)
        where expression matrix contains samples in rows and genes in columns
     """
-
-    #~ auxiliary variables
-    global genenames
-    global specieslabel
-    #~ label for output file (specific of the data set)
-    specieslabel = filepath[9:11]
-  
-
-def trim(label): return label.replace('"','')
+    def trim(label): return label.replace('"','')
     print "Loading data ..."
     with open(filepath) as f:
         f.next() #skip sample id
@@ -61,8 +53,6 @@ def trim(label): return label.replace('"','')
     labels = map(trim,mat[0][1:])
     data = array([map(float,row[1:]) for row in mat[1:]], dtype=float).T
     if do_norm: data = normalize(data, do_log)
-    #~ assigns the list genes to the global list genenames
-    genenames = genes
     return labels, genes, data
 
 
@@ -220,16 +210,12 @@ def plot_relaxation(data, n=10, prune=None):
        prune -- pruning threshold. If None no pruning is performed
     """
     labels, genes, samples = data
-    #~ defines empty list for later use
-    relaxation=[]
-    #~
     W = hopfield_train(samples, prune=prune)
     figure()
     subplot(1, n+1, 1)
     imshow(samples, origin="lower", interpolation="nearest", cmap=cm.RdYlGn_r)
     axis('off')
     states = signum(samples)
-
     for i in xrange(n):
         subplot(1, n+1, i+2)
         axis('off')
@@ -249,9 +235,9 @@ def plot_relaxation(data, n=10, prune=None):
             elif vsum[j] == 0:
                  #~ identifies each attractor and generates each outputfile
                  attractor = current_state[:,j]
-                 attractor_name = specieslabel + '_attractor_at_' + str(j+1) + '_n=' + str(n) + '_' +'.ats'
+                 attractor_name = specieslabel + '_attractor_at_' + str(j+1) + '_n=' + str(n) + '_steps' +'.ats'
                  attractor_position = [str(j+1)]
-                 attractor_output = pd.DataFrame(attractor, index=genenames, columns=attractor_position)
+                 attractor_output = pd.DataFrame(attractor, index=genes, columns=attractor_position)
                  attractor_output.to_csv(attractor_name, sep="\t")
                  break
                  #~ attractor identification ends here
@@ -470,8 +456,8 @@ def main(args):
     plot_weight_matrix(data, prune = t, bin=False)
     plot_landscape(data, prune = t)
     print
-    print "Finished."
-    print "Run time =", time.clock()
+    print "finished."
+    print "run time =", time.clock(), "seconds"
     print
     show()
 
