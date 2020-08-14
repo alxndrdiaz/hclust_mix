@@ -239,7 +239,6 @@ def plot_relaxation(data, n=10, prune=None):
                  attractor_position = [str(j+1)]
                  attractor_output = pd.DataFrame(attractor, index=genes, columns=attractor_position)
                  attractor_output.to_csv(attractor_name, sep="\t")
-                 break
                  #~ attractor identification ends here
     #~ generates image for relaxed states
     image_1 = '1_relaxation_' + specieslabel + '.png' 
