@@ -36,5 +36,15 @@ for column in U_attractors:
     U_attractors[column].to_csv( outname + '.tab', index=True, header=True, sep="\t")  
     low_states.to_csv( outname + '_low.ids', index=True, header=False, sep="\t")
     high_states.to_csv(  outname + '_high.ids', index=True, header=False, sep="\t") 
+    
+# find samples that converged to the same attractor
+for column in U_attractors:
+    print column; print
+    for nsample in attractors: 
+        print U_attractors[column].equals( attractors[nsample] )
+
+
+
+    
 
 
