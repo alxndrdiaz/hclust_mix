@@ -33,6 +33,7 @@ for column in U_attractors:
     low_states = U_attractors[column][ U_attractors[column] == -1 ]
     high_states = U_attractors[column][ U_attractors[column] == +1 ]
     outname = str(column) + '_sample_attractor'
+    U_attractors[column].to_csv( outname + '.tab', index=True, header=True, sep="\t")  
     low_states.to_csv( outname + '_low.ids', index=True, header=False, sep="\t")
     high_states.to_csv(  outname + '_high.ids', index=True, header=False, sep="\t") 
 
