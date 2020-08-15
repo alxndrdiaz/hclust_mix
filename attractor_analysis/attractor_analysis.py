@@ -27,3 +27,13 @@ U_attractors = U_attractors.drop_duplicates(keep='first')
 U_attractors = U_attractors.T
 print 'total unique attractors = ', U_attractors.shape[1]
 print
+
+# iterate to extract genes by state (-1,+1) for each attactor
+for column in U_attractors:
+    low_states = U_attractors[column][ U_attractors[column] == -1 ]
+    high_states = U_attractors[column][ U_attractors[column] == +1 ]
+    outname = str(column) + '_sample_attractor'
+    low_states.to_csv( outname + '_low.ids', index=True, header=False, sep="\t")
+    high_states.to_csv(  outname + '_high.ids', index=True, header=False, sep="\t") 
+
+
