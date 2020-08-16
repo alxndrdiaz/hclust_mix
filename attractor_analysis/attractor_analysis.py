@@ -38,10 +38,18 @@ for column in U_attractors:
     high_states.to_csv(  outname + '_high.ids', index=True, header=False, sep="\t") 
     
 # find samples that converged to the same attractor
+atts_samples = []
 for column in U_attractors:
-    print column; print
+    print 'first sample converded to attractor', column; print
+    att_by_sample = []
     for nsample in attractors: 
-        print U_attractors[column].equals( attractors[nsample] )
+        if U_attractors[column].equals( attractors[nsample] ) == True:
+           att_by_sample.append(nsample)
+    atts_samples.append(att_by_sample)
+
+for atsample in atts_samples: 
+    print ', '.join(atsample); print
+    print 'samples converged to attractor = ', len(atsample); print 
 
 
 
