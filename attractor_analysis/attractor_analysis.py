@@ -15,7 +15,7 @@ import pandas as pd
 currentdirectory = os.getcwd()
 
 # reads attractor file
-att_file = ''.join( glob.glob(currentdirectory + "/*.tab") )
+att_file = ''.join( glob.glob(currentdirectory + "/*.ats") )
 attractors = pd.read_csv(att_file, index_col=0, header=0, sep="\t")
 print
 print 'genes, samples = ', attractors.shape
