@@ -243,7 +243,7 @@ def plot_relaxation(data, n=10, prune=None):
                  #~ attractor identification ends here
     #~ put all attractors together in one dataframe
     all_attractors = pd.concat(ATTRACTORS, axis=1, sort=False)
-    all_attractors.to_csv(specieslabel + '_attractors' + '.tab', sep="\t")    
+    all_attractors.to_csv(specieslabel + '_attractors' + '.ats', sep="\t")    
     #~ generates image for relaxed states
     image_1 = '1_relaxation_' + specieslabel + '.png' 
     plt.savefig(image_1, format='png')
