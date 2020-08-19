@@ -6,6 +6,7 @@
 # for further analysis (.txt files, including files containing genes per binary state: -1, +1 ; and a summary file).
 
 import os
+import shutil
 import glob
 import time
 import numpy as np
@@ -62,6 +63,17 @@ samples_to_attractors = pd.DataFrame(
 
 samples_to_attractors = samples_to_attractors.reindex( columns = ['sample','attractor'] )
 samples_to_attractors.to_csv('samples_attractors.tab', index=False, header=True, sep="\t")
+
+
+# move all the results to a directory: 
+os.mkdir('attractor_results')
+idsfiles = glob.glob(currentdirectory + "/*.ids")
+tabfiles = glob.glob(currentdirectory + "/*.tab")
+results = idsfiles + tabfiles 
+for result in results: 
+    shutil.move(result, 'attractor_results')
+print
+
 
 
 
