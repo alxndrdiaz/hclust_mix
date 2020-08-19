@@ -72,7 +72,6 @@ tabfiles = glob.glob(currentdirectory + "/*.tab")
 results = idsfiles + tabfiles 
 for result in results: 
     shutil.move(result, 'attractor_results')
-print
 
 
 
