@@ -39,17 +39,27 @@ for column in U_attractors:
     
 # find samples that converged to the same attractor
 atts_samples = []
+samples_sorted = [None]*len(attractors.columns)
+
 for column in U_attractors:
-    print 'first sample converded to attractor', column; print
     att_by_sample = []
     for nsample in attractors: 
+        msample = int(nsample) - 1
         if U_attractors[column].equals( attractors[nsample] ) == True:
-           att_by_sample.append(nsample)
+           att_by_sample.append( nsample )
+           samples_sorted[msample] = 'A' + column
     atts_samples.append(att_by_sample)
 
+print
 for atsample in atts_samples: 
-    print ', '.join(atsample); print
-    print 'samples converged to attractor = ', len(atsample); print 
+    print 'total samples converged to attractor = ', len(atsample); print 
+print
+
+
+print
+for sample in samples_sorted: 
+    print sample
+print
 
 
 
