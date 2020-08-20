@@ -15,6 +15,8 @@ import os
 import shutil
 import glob
 import pandas as pd
+import seaborn as sn
+import matplotlib.pyplot as plt
 
 
 # detects current working directory and assigns it to the currentdirectory string:
