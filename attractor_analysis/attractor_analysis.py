@@ -34,16 +34,6 @@ U_attractors = U_attractors.T
 unique_attractors = U_attractors.shape[1]
 
 
-# plots attractors:
-att_heatmap = sn.clustermap( attractors, 
-annot=False, linewidths=.15, cmap='vlag',
-vmin = -1, vmax=1,  cbar_kws={"ticks":[-1,0,1]},
-xticklabels=False, yticklabels=True) 
-att_heatmap.fig.suptitle('Samples clustered by attractors',  fontsize=25)
-att_heatmap.plot
-plt.savefig('attractors_samples.png', format='png', dpi=300)
-
-
 # generates general summary table:
 general_summary = pd.DataFrame({
 'total_genes': [total_genes],
@@ -104,6 +94,20 @@ attractor_summary = pd.DataFrame({
 'nsamples': nsamples_attractor })
 attractor_summary.to_csv('attractor_summary.txt', index=False, header=True, sep="\t")
 
+
+# plots attractors:
+samples_palette = sn.color_palette( palette='husl', n_colors= len(att_IDS) )	 
+colors_att = dict( zip(att_IDS,samples_palette)  )
+colors_list = map(colors_att.get, atts_sorted)
+att_heatmap = sn.clustermap( attractors, 
+annot=False, linewidths=.15,
+vmin = -1, vmax=1,  cbar_kws={"ticks":[-1,0,1]},
+col_colors = colors_list, cmap='vlag', 
+xticklabels=False, yticklabels=True )
+plotitle = 'Samples clustered by N = ' + str( len(att_IDS) ) + ' attractors' 
+att_heatmap.fig.suptitle(plotitle, fontsize=25)
+att_heatmap.plot
+plt.savefig('attractors_heatmap.png', format='png', dpi=300)
 
 # move all the results to a directory: 
 os.mkdir('attractor_results')
