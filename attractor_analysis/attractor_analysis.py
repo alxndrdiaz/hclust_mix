@@ -1,9 +1,14 @@
 # Python 2.7.6
 # libraries: numpy 1.8.2; pandas 0.17.1; scipy 0.13.3
 
-# takes the output attractors from hclust_mix in .ats format and analyze overrepresented and  underrepresented genes, which are the predictions of the 
-# identified attractors. It also compares attractors in order to determine if they are different and how they are structured, provides output files 
-# for further analysis (.txt files, including files containing genes per binary state: -1, +1 ; and a summary file).
+#  evaluates how many unique attractors were detected and generates a file for each one ["A.tab" files]
+#  IDs for these files are assigned based on the first observed sample that converged to an attractor ("A1", "A5", etc) 
+#  for each attractor separates genes by state (-1,0,+1), ["low", "zero", "high" .ids files] 
+#  generates a table containing each sample and its associated attractor ["samples_attractors.tab"]
+#  general summary table contains the number of genes, samples and unique attractors ["general_summary.txt"]
+#  attractor summary table contains total number of samples and genes by state for each attractor ["attractor_summary.txt"]
+#  all .tab, and .ids files are moved to "attractor_results/" directory
+
 
 import os
 import shutil
