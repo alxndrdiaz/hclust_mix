@@ -79,14 +79,14 @@ samples_to_attractors = samples_to_attractors.reindex( columns = ['sample','attr
 samples_to_attractors.to_csv('samples_attractors.tab', index=False, header=True, sep="\t")
 
 
-# generates attractor gene summary table: 
-attractor_gene_summary = pd.DataFrame({
+# generates attractor summary table: 
+attractor_summary = pd.DataFrame({
 'attractor': att_IDS,
 'genes_high': high_genes,
 'genes_low': low_genes, 
 'genes_zero': zero_genes, 
 'nsamples': nsamples_attractor })
-attractor_gene_summary.to_csv('attractor_gene_summary.txt', index=False, header=True, sep="\t")
+attractor_summary.to_csv('attractor_summary.txt', index=False, header=True, sep="\t")
 
 
 # move all the results to a directory: 
