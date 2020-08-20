@@ -32,8 +32,7 @@ unique_attractors = U_attractors.shape[1]
 general_summary = pd.DataFrame({
 'total_genes': [total_genes],
 'total_samples': [total_samples],
-'unique_attractors': [unique_attractors]
-})
+'unique_attractors': [unique_attractors] })
 general_summary.to_csv('general_summary.txt', index=False, header=True, sep="\t")
 
 
@@ -56,11 +55,10 @@ for column in U_attractors:
     low_states.to_csv( outname + '_genes_low.ids', index=True, header=False, sep="\t")
     zero_states.to_csv(  outname + '_genes_zero.ids', index=True, header=False, sep="\t") 
 
-        
-# find samples that converged to the same attractor:
+    
+# finds samples that converged to the same attractor: 
 atts_samples = []
 atts_sorted = [None]*len(attractors.columns)
-
 for column in U_attractors:
     att_by_sample = []
     for nsample in attractors: 
@@ -69,18 +67,26 @@ for column in U_attractors:
            att_by_sample.append( nsample )
            atts_sorted[msample] = 'A' + column
     atts_samples.append(att_by_sample)
-
-print
+# number of samples that converged to each attractor
+nsamples_attractor = [] 
 for atsample in atts_samples: 
-    print 'total samples converged to attractor = ', len(atsample); print 
-print
-
+     nsamples_attractor.append( len(atsample) )
+# table that contains each sample and its attractor
 samples_to_attractors = pd.DataFrame( 
 {'sample': list(attractors.columns),
 'attractor': atts_sorted} )
-
 samples_to_attractors = samples_to_attractors.reindex( columns = ['sample','attractor'] )
 samples_to_attractors.to_csv('samples_attractors.tab', index=False, header=True, sep="\t")
+
+
+# generates attractor gene summary table: 
+attractor_gene_summary = pd.DataFrame({
+'attractor': att_IDS,
+'genes_high': high_genes,
+'genes_low': low_genes, 
+'genes_zero': zero_genes, 
+'nsamples': nsamples_attractor })
+attractor_gene_summary.to_csv('attractor_gene_summary.txt', index=False, header=True, sep="\t")
 
 
 # move all the results to a directory: 
@@ -90,11 +96,4 @@ tabfiles = glob.glob(currentdirectory + "/*.tab")
 results = idsfiles + tabfiles 
 for result in results: 
     shutil.move(result, 'attractor_results')
-
-
-
-
-
-    
-
 
