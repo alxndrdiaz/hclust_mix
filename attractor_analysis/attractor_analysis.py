@@ -7,6 +7,7 @@
 #  generates a table containing each sample and its associated attractor ["samples_attractors.tab"]
 #  general summary table contains the number of genes, samples and unique attractors ["general_summary.txt"]
 #  attractor summary table contains total number of samples and genes by state for each attractor ["attractor_summary.txt"]
+#  "attractors_heatmap.png" shows samples clustered by the attractors, each attractor is marked with a color at the top 
 #  all .tab, and .ids files are moved to "attractor_results/" directory
 
 
