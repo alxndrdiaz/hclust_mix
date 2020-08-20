@@ -8,9 +8,8 @@
 import os
 import shutil
 import glob
-import time
-import numpy as np
 import pandas as pd
+
 
 # detects current working directory and assigns it to the currentdirectory string:
 currentdirectory = os.getcwd()
@@ -18,27 +17,46 @@ currentdirectory = os.getcwd()
 # reads attractor file:
 att_file = ''.join( glob.glob(currentdirectory + "/*.ats") )
 attractors = pd.read_csv(att_file, index_col=0, header=0, sep="\t")
-print
-print 'genes, samples = ', attractors.shape
-print
+# total genes and samples used to search attractors
+total_genes = attractors.shape[0]
+total_samples = attractors.shape[1]
 
 # finds unique attractors:
 U_attractors = attractors.T
 U_attractors = U_attractors.drop_duplicates(keep='first')
 U_attractors = U_attractors.T
-print 'total unique attractors = ', U_attractors.shape[1]
-print
+# total numbber of unique attractors 
+unique_attractors = U_attractors.shape[1]
 
-# iterate to extract genes by state (-1,+1) for each attactor:
+# generates general summary table:
+general_summary = pd.DataFrame({
+'total_genes': [total_genes],
+'total_samples': [total_samples],
+'unique_attractors': [unique_attractors]
+})
+general_summary.to_csv('general_summary.txt', index=False, header=True, sep="\t")
+
+
+# extracts genes by state (-1,0,+1) for each attactor:
+att_IDS = []
+high_genes = []
+low_genes = []
+zero_genes = []
 for column in U_attractors:
-    low_states = U_attractors[column][ U_attractors[column] == -1 ]
     high_states = U_attractors[column][ U_attractors[column] == +1 ]
-    outname = 'A'+ str(column) + '_state'
+    low_states = U_attractors[column][ U_attractors[column] == -1 ]
+    zero_states = U_attractors[column][ U_attractors[column] == 0 ] 
+    outname = 'A'+ str(column)
+    att_IDS.append( outname )
+    high_genes.append( len(high_states) )
+    low_genes.append( len(low_states) )
+    zero_genes.append( len(zero_states) )  
     U_attractors[column].to_csv( outname + '.tab', index=True, header=True, sep="\t")  
+    high_states.to_csv(  outname + '_genes_high.ids', index=True, header=False, sep="\t")
     low_states.to_csv( outname + '_genes_low.ids', index=True, header=False, sep="\t")
-    high_states.to_csv(  outname + '_genes_high.ids', index=True, header=False, sep="\t") 
+    zero_states.to_csv(  outname + '_genes_zero.ids', index=True, header=False, sep="\t") 
 
-    
+        
 # find samples that converged to the same attractor:
 atts_samples = []
 atts_sorted = [None]*len(attractors.columns)
