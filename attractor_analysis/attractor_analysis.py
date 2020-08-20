@@ -99,15 +99,18 @@ attractor_summary.to_csv('attractor_summary.txt', index=False, header=True, sep=
 samples_palette = sn.color_palette( palette='husl', n_colors= len(att_IDS) )	 
 colors_att = dict( zip(att_IDS,samples_palette)  )
 colors_list = map(colors_att.get, atts_sorted)
+# seaborn clustermap
 att_heatmap = sn.clustermap( attractors, 
-annot=False, linewidths=.15,
-vmin = -1, vmax=1,  cbar_kws={"ticks":[-1,0,1]},
+annot=False, linewidths=.15, 
+vmin = -1, vmax=1,  cbar_kws={'ticks':[-1,0,1]},
 col_colors = colors_list, cmap='vlag', 
 xticklabels=False, yticklabels=True )
+# saves figure
 plotitle = 'Samples clustered by N = ' + str( len(att_IDS) ) + ' attractors' 
 att_heatmap.fig.suptitle(plotitle, fontsize=25)
 att_heatmap.plot
 plt.savefig('attractors_heatmap.png', format='png', dpi=300)
+
 
 # move all the results to a directory: 
 os.mkdir('attractor_results')
