@@ -33,6 +33,17 @@ U_attractors = U_attractors.T
 # total numbber of unique attractors 
 unique_attractors = U_attractors.shape[1]
 
+
+# plots attractors:
+att_heatmap = sn.clustermap( attractors, 
+annot=False, linewidths=.15, cmap='vlag',
+vmin = -1, vmax=1,  cbar_kws={"ticks":[-1,0,1]},
+xticklabels=False, yticklabels=True) 
+att_heatmap.fig.suptitle('Samples clustered by attractors',  fontsize=25)
+att_heatmap.plot
+plt.savefig('attractors_samples.png', format='png', dpi=300)
+
+
 # generates general summary table:
 general_summary = pd.DataFrame({
 'total_genes': [total_genes],
