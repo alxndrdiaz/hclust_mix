@@ -27,8 +27,6 @@ import numpy as np
 import time
 import pandas as pd
 
-#~ label for output files (specific of the data set)
-specieslabel = 'test'
 
 def load_data(filepath, do_norm, do_log='AUTO'):
     """Load tab separated expression data.
@@ -243,9 +241,9 @@ def plot_relaxation(data, n=10, prune=None):
                  #~ attractor identification ends here
     #~ put all attractors together in one dataframe
     all_attractors = pd.concat(ATTRACTORS, axis=1, sort=False)
-    all_attractors.to_csv(specieslabel + '_attractors' + '.ats', sep="\t")    
+    all_attractors.to_csv('all_attractors.ats', sep="\t")    
     #~ generates image for relaxed states
-    image_1 = '1_relaxation_' + specieslabel + '.png' 
+    image_1 = '1_relaxation_state_matrix.png' 
     plt.savefig(image_1, format='png')
     
 
@@ -275,7 +273,7 @@ def plot_weight_matrix(data, prune=None, bin=True):
     axis('off')
     colorbar()
     #~ generates image for weight matrix
-    image_2 = '2    _weight_matrix_' + specieslabel + '.png'
+    image_2 = '2_weight_matrix.png'
     plt.savefig(image_2, format='png')
 
 
@@ -318,7 +316,7 @@ def plot_pruning(data, alpha=0.2):
     legend(['TRI','ERI','Density'])
     gca().set_ylim(ymin=-0.05, ymax=1.05)
     #~ generates image for pruning threesholds
-    image_3 = '3_pruning_threesholds_' + specieslabel + '.png'
+    image_3 = '3_pruning_threesholds.png'
     plt.savefig(image_3, format='png')
     return t
 
@@ -408,7 +406,7 @@ def plot_landscape(data, res=50, prune=None):
     ax.set_xlabel('1st pc'); ax.set_ylabel('2nd pc'); ax.set_zlabel('Energy')
 
     #~ generates image for energy landscape
-    image_4 = '4_energy_landscape_' + specieslabel + '.png'
+    image_4 = '4_energy_landscape.png'
     plt.savefig(image_4, format='png')
   
     ax = figure().gca(projection='3d')
@@ -419,7 +417,7 @@ def plot_landscape(data, res=50, prune=None):
     samples_a_e = hopfield_energy(W, samples_a)
 
     #~ generates image for energy landscape with PCA 1,2 coordinates
-    image_5 = '5_PCA_landscape_' + specieslabel + '.png'
+    image_5 = '5_PCA_landscape.png'
     plt.savefig(image_5, format='png')
 
     fig = figure()
@@ -433,7 +431,7 @@ def plot_landscape(data, res=50, prune=None):
     plot(samples_a_2d[:,0], samples_a_2d[:,1], 'og', markersize=10, alpha=0.5)
 
     #~ generates image for energy landscape PCA contour plot
-    image_6 = '6_PCA_contour_plot_' + specieslabel + '.png'
+    image_6 = '6_PCA_contour_plot.png'
     plt.savefig(image_6, format='png')
     
     
