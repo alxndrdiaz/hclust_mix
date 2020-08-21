@@ -461,8 +461,7 @@ def main(args):
     print
     show()
 
-
-
+    
 if __name__ == "__main__":
     import sys
     args = sys.argv
@@ -470,3 +469,6 @@ if __name__ == "__main__":
         print_usage()
     else:
         main(args)
+        
+        
+execfile('attractor_analysis/attractor_analysis.py')
