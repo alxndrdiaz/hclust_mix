@@ -15,8 +15,7 @@ All lines starting with #~ are the commentaries of new modifications.
 
 """
 
-#~ Python 2.7.6 
-#~ libraries: numpy 1.8.2; scipy 0.13.3; matplotlib 0.19.0; pandas 0.17.1; scikit-learn 0.19.0
+#~ Python 2.7.16 
 
 #~ first four libraries allow image output files
 import matplotlib 
@@ -471,4 +470,5 @@ if __name__ == "__main__":
         main(args)
         
         
+# runs attractor analysis        
 execfile('attractor_analysis/attractor_analysis.py')
