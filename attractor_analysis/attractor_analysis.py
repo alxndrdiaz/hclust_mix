@@ -1,5 +1,4 @@
-# Python 2.7.6
-# libraries: numpy 1.8.2; pandas 0.17.1; scipy 0.13.3
+# Python 2.7.16
 
 #  evaluates how many unique attractors were detected and generates a file for each one ["A.tab" files]
 #  IDs for these files are assigned based on the first observed sample that converged to an attractor ("A1", "A5", etc) 
