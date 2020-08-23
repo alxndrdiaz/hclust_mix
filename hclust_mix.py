@@ -44,7 +44,7 @@ def load_data(filepath, do_norm, do_log='AUTO'):
     print "Loading data ..."
     with open(filepath) as f:
         #~ skip sample labels and extracts them as a global list
-        global first_header; first_header=f.next(); first_header=first_header.rsplit() 
+        global samples_labels; samples_labels=f.next(); samples_labels=samples_labels.rsplit() 
         mat = [line.rstrip().split('\t') for line in f]
     mat = zip(*sorted(zip(*mat), key = lambda c: c[0]))
     genes = [row[0] for row in mat[1:]]
@@ -241,7 +241,7 @@ def plot_relaxation(data, n=10, prune=None):
                  #~ attractor identification ends here
     #~ put all attractors together in one dataframe
     all_attractors = pd.concat(ATTRACTORS, axis=1, sort=False)
-    all_attractors.columns = first_header 
+    all_attractors.columns = samples_labels 
     all_attractors.to_csv('attractors.ats', sep="\t")    
     #~ generates image for relaxed states
     image_1 = '1_relaxation_state_matrix.png' 
