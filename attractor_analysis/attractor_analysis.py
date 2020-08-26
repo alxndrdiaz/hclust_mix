@@ -70,9 +70,11 @@ atts_sorted = [None]*len(attractors.columns)
 for column in U_attractors:
     att_by_sample = []
     for nsample in attractors: 
-        msample = int(nsample) - 1
         if U_attractors[column].equals( attractors[nsample] ) == True:
            att_by_sample.append( nsample )
+           # gets position of the converged sample 
+           msample = attractors.columns.get_loc(nsample)
+           # saves the attractor label associated to sample
            atts_sorted[msample] = 'A' + column
     atts_samples.append(att_by_sample)
 # number of samples that converged to each attractor
