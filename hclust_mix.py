@@ -48,9 +48,11 @@ def load_data(filepath, do_norm, do_log='AUTO'):
     with open(filepath) as f:
         #~ skip sample labels and extracts them as a global list
         global samples_labels; samples_labels=f.next(); samples_labels=samples_labels.rsplit() 
+        global total_samples; total_samples = len(samples_labels)  
         mat = [line.rstrip().split('\t') for line in f]
     mat = zip(*sorted(zip(*mat), key = lambda c: c[0]))
     genes = [row[0] for row in mat[1:]]
+    global total_genes; total_genes = len(genes)
     labels = map(trim,mat[0][1:])
     data = array([map(float,row[1:]) for row in mat[1:]], dtype=float).T
     if do_norm: data = normalize(data, do_log)
