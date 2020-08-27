@@ -26,6 +26,9 @@ import numpy as np
 import time
 import pandas as pd
 
+#~ number of steps to search attractors
+N = 500
+
 
 def load_data(filepath, do_norm, do_log='AUTO'):
     """Load tab separated expression data.
@@ -225,23 +228,28 @@ def plot_relaxation(data, n=10, prune=None):
         diffmatrix = np.subtract(current_state,previous_state)
         diffmatrix = np.abs(diffmatrix)
         vsum = np.sum(diffmatrix, axis=0)
-        jrange = vsum.shape[0]
-        jrange = xrange(jrange)
+        jrange = range( vsum.shape[0] ) 
         #~ list to generate attractors dataframe
         ATTRACTORS = []
+        convergent_index = []
+        nonconvergent_index = [] 
         for j in jrange:
             if vsum[j] != 0:
                states = new_states
+               nonconvergent_index.append(j)
             elif vsum[j] == 0:
                  #~ identifies each attractor and appends it to the list
                  attractor_vector = current_state[:,j]               
-                 attractor_position = [str(j+1)]
+                 attractor_position = [ str(j) ]
+                 convergent_index.append(j)
                  attractor = pd.DataFrame(attractor_vector, index=genes, columns=attractor_position)
                  ATTRACTORS.append(attractor)
                  #~ attractor identification ends here
     #~ put all attractors together in one dataframe
     all_attractors = pd.concat(ATTRACTORS, axis=1, sort=False)
-    all_attractors.columns = samples_labels 
+    CONVERGENT = [ samples_labels[index] for index in convergent_index ] 
+    NONCONVERGENT = [ samples_labels[index] for index in nonconvergent_index ]
+    all_attractors.columns = CONVERGENT 
     all_attractors.to_csv('attractors.ats', sep="\t")    
     #~ generates image for relaxed states
     image_1 = '1_relaxation_state_matrix.png' 
@@ -453,7 +461,7 @@ def main(args):
     data = load_data(args[1], '-n' in args)
     if '-f' in args: data = feature_selection(data)
     t = plot_pruning(data) if '-p' in args else None
-    plot_relaxation(data, prune = t, n=10)
+    plot_relaxation(data, prune = t, n=N)
     plot_weight_matrix(data, prune = t, bin=False)
     plot_landscape(data, prune = t)
     print
