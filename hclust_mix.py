@@ -229,7 +229,7 @@ def plot_relaxation(data, n=10, prune=None):
         diffmatrix = np.abs(diffmatrix)
         vsum = np.sum(diffmatrix, axis=0)
         jrange = range( vsum.shape[0] ) 
-        #~ list to generate attractors dataframe
+        #~ searchs atractors states:
         ATTRACTORS = []
         convergent_index = []
         nonconvergent_index = [] 
@@ -245,12 +245,25 @@ def plot_relaxation(data, n=10, prune=None):
                  attractor = pd.DataFrame(attractor_vector, index=genes, columns=attractor_position)
                  ATTRACTORS.append(attractor)
                  #~ attractor identification ends here
-    #~ put all attractors together in one dataframe
+    #~ puts all attractors together and identify convergent and not converged samples
     all_attractors = pd.concat(ATTRACTORS, axis=1, sort=False)
     CONVERGENT = [ samples_labels[index] for index in convergent_index ] 
+    n_con = len(CONVERGENT)
     NONCONVERGENT = [ samples_labels[index] for index in nonconvergent_index ]
+    n_ncon = len(NONCONVERGENT)  
     all_attractors.columns = CONVERGENT 
-    all_attractors.to_csv('attractors.ats', sep="\t")    
+    all_attractors.to_csv('attractors.ats', sep="\t")
+    CONVERGENT = pd.DataFrame( {'sample': CONVERGENT} )
+    CONVERGENT.to_csv('samples_convergent.txt', index=False, header=True, sep="\t")
+    NONCONVERGENT = pd.DataFrame( {'sample': NONCONVERGENT} )
+    NONCONVERGENT.to_csv('samples_non-convergent.txt', index=False, header=True,sep="\t") 
+    #~ attractor search report 
+    attractor_search_summary = pd.DataFrame( {'total_samples':[total_samples], 'samples_converged':[n_con], 
+    'samples_not_converged':[n_con], 'total_genes':[total_genes] , 'feature_genes':[len(genes)], 'steps':[N], } )
+
+    attractor_search_summary = attractor_search_summary.reindex(columns = ['total_samples','samples_converged','samples_not_converged', 'total_genes', 'feature_genes', 'steps']) 
+    
+    attractor_search_summary.to_csv('attractor_search_summary.txt', index=False, header=True, sep="\t")	   
     #~ generates image for relaxed states
     image_1 = '1_relaxation_state_matrix.png' 
     plt.savefig(image_1, format='png')
