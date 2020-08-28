@@ -99,20 +99,25 @@ attractor_summary = pd.DataFrame({
 'nsamples': nsamples_attractor })
 attractor_summary.to_csv('attractor_summary.txt', index=False, header=True, sep="\t")
 
-
 # plots attractors:
+# colors for column 
 samples_palette = sn.color_palette( palette='husl', n_colors= len(att_IDS) )	 
 colors_att = dict( zip(att_IDS,samples_palette)  )
 colors_list = map(colors_att.get, atts_sorted)
 # seaborn clustermap
-att_heatmap = sn.clustermap( attractors, 
-annot=False, linewidths=.15, 
+att_heatmap = sn.clustermap( attractors,  
+annot=False, linewidths=.005, 
 vmin = -1, vmax=1,  cbar_kws={'ticks':[-1,0,1]},
 col_colors = colors_list, cmap='vlag', 
 xticklabels=False, yticklabels=False )
-# saves figure
+# add columns legend (associated to attractors)  
+for label in att_IDS:
+    att_heatmap.ax_col_dendrogram.bar(0,0,color=colors_att[label],label=label,linewidth=0) 
+att_heatmap.ax_col_dendrogram.legend(loc='best', ncol=3)
+# title 
 plotitle = str(total_samples) + ' samples clustered by N = ' + str( len(att_IDS) ) + ' attractors' + ', genes = ' + str(total_genes) 
 att_heatmap.fig.suptitle(plotitle, fontsize=20)
+# saves figure
 att_heatmap.plot
 plt.savefig('attractors_heatmap.png', format='png', dpi=300)
 
