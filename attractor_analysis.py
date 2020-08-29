@@ -99,13 +99,14 @@ attractor_summary = pd.DataFrame({
 'nsamples': nsamples_attractor })
 attractor_summary.to_csv('attractor_summary.txt', index=False, header=True, sep="\t")
 
-# plots attractors:
+# plots attractors heatmap:
 # colors for column 
 samples_palette = sn.color_palette( palette='husl', n_colors= len(att_IDS) )	 
 colors_att = dict( zip(att_IDS,samples_palette)  )
 colors_list = map(colors_att.get, atts_sorted)
 # seaborn clustermap
-att_heatmap = sn.clustermap( attractors,  
+att_heatmap = sn.clustermap( attractors,
+figsize = (18,15),  
 annot=False, linewidths=.005, 
 vmin = -1, vmax=1,  cbar_kws={'ticks':[-1,0,1]},
 col_colors = colors_list, cmap='vlag', 
@@ -119,7 +120,21 @@ plotitle = str(total_samples) + ' samples clustered by N = ' + str( len(att_IDS)
 att_heatmap.fig.suptitle(plotitle, fontsize=20)
 # saves figure
 att_heatmap.plot
-plt.savefig('attractors_heatmap.png', format='png', dpi=300)
+plt.savefig('attractors_heatmap.png', format='png', dpi=300); plt.clf()
+('attractors_heatmap.png', format='png', dpi=300) 
+
+
+# plots attractors dendrogram:  
+from scipy.cluster.hierarchy import dendrogram, linkage
+# computes distance between samples
+datts = linkage(U_attractors.T, metric='euclidean')
+# plots the dendrogram
+plt.title('Hierarchical Clustering Dendrogram')
+plt.ylabel('sample index')
+plt.xlabel('distance (Euclidean)')
+#matplotlib.rcParams['lines.linewidth'] = 2.5
+dendrogram(datts, labels=U_attractors.columns, leaf_rotation=0, orientation='left')
+plt.savefig('attractors_dendrogram.png', format='png', dpi=300); plt.clf()
 
 
 # move all the results to a directory: 
