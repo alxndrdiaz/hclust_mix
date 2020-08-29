@@ -249,11 +249,11 @@ def plot_relaxation(data, n=10, prune=None):
                  #~ attractor identification ends here
     #~ puts all attractors together and identify convergent and not converged samples
     all_attractors = pd.concat(ATTRACTORS, axis=1, sort=False)
-    CONVERGENT = [ samples_labels[index] for index in convergent_index ] 
-    n_con = len(CONVERGENT)
-    NONCONVERGENT = [ samples_labels[index] for index in nonconvergent_index ]
-    n_ncon = len(NONCONVERGENT)  
-    all_attractors.columns = CONVERGENT 
+    CONVERGENT = [ samples_labels[index] for index in convergent_index ]; n_con = len(CONVERGENT)
+    NONCONVERGENT = [ samples_labels[index] for index in nonconvergent_index ] ; n_ncon = len(NONCONVERGENT)    
+    EXTLABELS = [ labels[index] for index in convergent_index ]    
+    s_header = pd.MultiIndex.from_arrays( [CONVERGENT,EXTLABELS], names=['sample','type'] ) 
+    all_attractors.columns = s_header
     all_attractors.to_csv('attractors.ats', sep="\t")
     CONVERGENT = pd.DataFrame( {'sample': CONVERGENT} )
     CONVERGENT.to_csv('samples_convergent.txt', index=False, header=True, sep="\t")
