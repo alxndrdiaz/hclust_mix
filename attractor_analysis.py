@@ -32,6 +32,12 @@ total_samples = attractors.shape[1]
 U_attractors = attractors.T
 U_attractors = U_attractors.drop_duplicates(keep='first')
 U_attractors = U_attractors.T
+# changes column labels
+cols=list(U_attractors.columns.values)
+ucolumns = [] #< same as att_IDS
+for column in U_attractors:
+    ucolumns.append( 'A' + str( 1 + cols.index(column) ) ) 
+U_attractors.columns = ucolumns
 # total numbber of unique attractors 
 unique_attractors = U_attractors.shape[1]
 
@@ -45,24 +51,24 @@ general_summary.to_csv('general_summary.txt', index=False, header=True, sep="\t"
 
 
 # extracts genes by state (-1,0,+1) for each attactor:
-att_IDS = []
+#att_IDS = []
 high_genes = []
 low_genes = []
 zero_genes = []
-cols=list(U_attractors.columns.values)
+#cols=list(U_attractors.columns.values)
 for column in U_attractors:
     high_states = U_attractors[column][ U_attractors[column] == +1 ]
     low_states = U_attractors[column][ U_attractors[column] == -1 ]
     zero_states = U_attractors[column][ U_attractors[column] == 0 ] 
-    outname =  'A' + str( 1 + cols.index(column) ) 
-    att_IDS.append(outname)
+    #outname =  'A' + str( 1 + cols.index(column) ) 
+    #att_IDS.append(column)
     high_genes.append( len(high_states) )
     low_genes.append( len(low_states) )
     zero_genes.append( len(zero_states) )  
-    U_attractors[column].to_csv( outname + '.tab', index=True, header=True, sep="\t")  
-    high_states.to_csv(  outname + '_genes_high.ids', index=True, header=False, sep="\t")
-    low_states.to_csv( outname + '_genes_low.ids', index=True, header=False, sep="\t")
-    zero_states.to_csv(  outname + '_genes_zero.ids', index=True, header=False, sep="\t") 
+    U_attractors[column].to_csv( column + '.tab', index=True, header=True, sep="\t")  
+    high_states.to_csv(  column + '_genes_high.ids', index=True, header=False, sep="\t")
+    low_states.to_csv( column + '_genes_low.ids', index=True, header=False, sep="\t")
+    zero_states.to_csv(  column + '_genes_zero.ids', index=True, header=False, sep="\t") 
 
     
 # finds samples that converged to the same attractor: 
@@ -76,7 +82,7 @@ for column in U_attractors:
            # gets position of the converged sample 
            msample = attractors.columns.get_loc(nsample)
            # saves the attractor label associated to sample
-           atts_sorted[msample] = 'A' + str( 1 + cols.index(column) )
+           atts_sorted[msample] = column
     atts_samples.append(att_by_sample)
 # number of samples that converged to each attractor
 nsamples_attractor = [] 
@@ -91,6 +97,7 @@ samples_to_attractors.to_csv('samples_attractors.tab', index=False, header=True,
 
 
 # generates attractor summary table: 
+att_IDS=list(U_attractors.columns.values)
 attractor_summary = pd.DataFrame({
 'attractor': att_IDS,
 'genes_high': high_genes,
@@ -99,6 +106,7 @@ attractor_summary = pd.DataFrame({
 'nsamples': nsamples_attractor })
 attractor_summary.to_csv('attractor_summary.txt', index=False, header=True, sep="\t")
 
+
 # plots attractors heatmap:
 # colors for column 
 samples_palette = sn.color_palette( palette='husl', n_colors= len(att_IDS) )	 
@@ -106,36 +114,36 @@ colors_att = dict( zip(att_IDS,samples_palette)  )
 colors_list = map(colors_att.get, atts_sorted)
 # seaborn clustermap
 att_heatmap = sn.clustermap( attractors,
-figsize = (18,15),  
-annot=False, linewidths=.005, 
+figsize = (8,6),  
+annot=False, linewidths=.00005, 
 vmin = -1, vmax=1,  cbar_kws={'ticks':[-1,0,1]},
 col_colors = colors_list, cmap='vlag', 
 xticklabels=False, yticklabels=False )
-# add columns legend (associated to attractors)  
-for label in att_IDS:
-    att_heatmap.ax_col_dendrogram.bar(0,0,color=colors_att[label],label=label,linewidth=0) 
-att_heatmap.ax_col_dendrogram.legend(loc='best', ncol=3)
+# add columns legend (associated to attractors, optional)  
+#for label in att_IDS:
+#    att_heatmap.ax_col_dendrogram.bar(0,0,color=colors_att[label],label=label,linewidth=0) 
+#att_heatmap.ax_col_dendrogram.legend(loc='best', ncol=3)
 # title 
 plotitle = str(total_samples) + ' samples clustered by N = ' + str( len(att_IDS) ) + ' attractors' + ', genes = ' + str(total_genes) 
-att_heatmap.fig.suptitle(plotitle, fontsize=20)
+att_heatmap.fig.suptitle(plotitle, fontsize=18)
 # saves figure
 att_heatmap.plot
 plt.savefig('attractors_heatmap.png', format='png', dpi=300); plt.clf()
-('attractors_heatmap.png', format='png', dpi=300) 
 
 
 # plots attractors dendrogram:  
-from scipy.cluster.hierarchy import dendrogram, linkage
+#from scipy.cluster.hierarchy import dendrogram, linkage
+from scipy.cluster import hierarchy
 # computes distance between samples
-datts = linkage(U_attractors.T, metric='euclidean')
+datts = hierarchy.linkage(U_attractors.T, metric='euclidean')
 # plots the dendrogram
 plt.title('Hierarchical Clustering Dendrogram')
-plt.ylabel('sample index')
-plt.xlabel('distance (Euclidean)')
-#matplotlib.rcParams['lines.linewidth'] = 2.5
-dendrogram(datts, labels=U_attractors.columns, leaf_rotation=0, orientation='left')
+plt.ylabel('attractors')
+plt.xlabel('distance [Euclidean]')
+#print samples_palette
+hierarchy.set_link_color_palette(None)
+hierarchy.dendrogram(datts, labels=U_attractors.columns, leaf_rotation=0, orientation='left')
 plt.savefig('attractors_dendrogram.png', format='png', dpi=300); plt.clf()
-
 
 # move all the results to a directory: 
 os.mkdir('attractor_results')
@@ -144,4 +152,3 @@ tabfiles = glob.glob(currentdirectory + "/*.tab")
 results = idsfiles + tabfiles 
 for result in results: 
     shutil.move(result, 'attractor_results')
-
