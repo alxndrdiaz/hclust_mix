@@ -23,7 +23,12 @@ currentdirectory = os.getcwd()
 
 # reads attractor file:
 att_file = ''.join( glob.glob(currentdirectory + "/*.ats") )
-attractors = pd.read_csv(att_file, index_col=0, header=0, sep="\t")
+attractors = pd.read_csv(att_file, index_col=0, header=[0,1], sep="\t")
+# gets both column indices and reuse only the first one
+sample_labels = attractors.columns.get_level_values(0).tolist() 
+type_labels = attractors.columns.get_level_values(1).tolist() 
+attractors.columns = sample_labels
+
 # total genes and samples used to search attractors
 total_genes = attractors.shape[0]
 total_samples = attractors.shape[1]
@@ -74,6 +79,7 @@ for column in U_attractors:
 # finds samples that converged to the same attractor: 
 atts_samples = []
 atts_sorted = [None]*len(attractors.columns)
+stypes_sorted = [None]*len(attractors.columns)
 for column in U_attractors:
     att_by_sample = []
     for nsample in attractors: 
@@ -81,8 +87,9 @@ for column in U_attractors:
            att_by_sample.append( nsample )
            # gets position of the converged sample 
            msample = attractors.columns.get_loc(nsample)
-           # saves the attractor label associated to sample
+           # saves the attractor label and type associated to sample
            atts_sorted[msample] = column
+           stypes_sorted[msample] = type_labels[msample]
     atts_samples.append(att_by_sample)
 # number of samples that converged to each attractor
 nsamples_attractor = [] 
@@ -91,8 +98,9 @@ for atsample in atts_samples:
 # table that contains each sample and its attractor
 samples_to_attractors = pd.DataFrame( 
 {'sample': list(attractors.columns),
+'type': stypes_sorted,
 'attractor': atts_sorted} )
-samples_to_attractors = samples_to_attractors.reindex( columns = ['sample','attractor'] )
+samples_to_attractors = samples_to_attractors.reindex( columns = ['sample','type','attractor'] )
 samples_to_attractors.to_csv('samples_attractors.tab', index=False, header=True, sep="\t")
 
 
@@ -140,7 +148,6 @@ datts = hierarchy.linkage(U_attractors.T, metric='euclidean')
 plt.title('Hierarchical Clustering Dendrogram')
 plt.ylabel('attractors')
 plt.xlabel('distance [Euclidean]')
-#print samples_palette
 hierarchy.set_link_color_palette(None)
 hierarchy.dendrogram(datts, labels=U_attractors.columns, leaf_rotation=0, orientation='left')
 plt.savefig('attractors_dendrogram.png', format='png', dpi=300); plt.clf()
