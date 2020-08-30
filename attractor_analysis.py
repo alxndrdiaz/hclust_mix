@@ -39,7 +39,7 @@ U_attractors = U_attractors.drop_duplicates(keep='first')
 U_attractors = U_attractors.T
 # changes column labels
 cols=list(U_attractors.columns.values)
-ucolumns = [] #< same as att_IDS
+ucolumns = [] 
 for column in U_attractors:
     ucolumns.append( 'A' + str( 1 + cols.index(column) ) ) 
 U_attractors.columns = ucolumns
@@ -56,17 +56,13 @@ general_summary.to_csv('general_summary.txt', index=False, header=True, sep="\t"
 
 
 # extracts genes by state (-1,0,+1) for each attactor:
-#att_IDS = []
 high_genes = []
 low_genes = []
 zero_genes = []
-#cols=list(U_attractors.columns.values)
 for column in U_attractors:
     high_states = U_attractors[column][ U_attractors[column] == +1 ]
     low_states = U_attractors[column][ U_attractors[column] == -1 ]
     zero_states = U_attractors[column][ U_attractors[column] == 0 ] 
-    #outname =  'A' + str( 1 + cols.index(column) ) 
-    #att_IDS.append(column)
     high_genes.append( len(high_states) )
     low_genes.append( len(low_states) )
     zero_genes.append( len(zero_states) )  
@@ -127,10 +123,6 @@ annot=False, linewidths=.00005,
 vmin = -1, vmax=1,  cbar_kws={'ticks':[-1,0,1]},
 col_colors = colors_list, cmap='vlag', 
 xticklabels=False, yticklabels=False )
-# add columns legend (associated to attractors, optional)  
-#for label in att_IDS:
-#    att_heatmap.ax_col_dendrogram.bar(0,0,color=colors_att[label],label=label,linewidth=0) 
-#att_heatmap.ax_col_dendrogram.legend(loc='best', ncol=3)
 # title 
 plotitle = str(total_samples) + ' samples clustered by N = ' + str( len(att_IDS) ) + ' attractors' + ', genes = ' + str(total_genes) 
 att_heatmap.fig.suptitle(plotitle, fontsize=18)
@@ -140,17 +132,28 @@ plt.savefig('attractors_heatmap.png', format='png', dpi=300); plt.clf()
 
 
 # plots attractors dendrogram:  
-#from scipy.cluster.hierarchy import dendrogram, linkage
 from scipy.cluster import hierarchy
 # computes distance between samples
 datts = hierarchy.linkage(U_attractors.T, metric='euclidean')
 # plots the dendrogram
 plt.title('Hierarchical Clustering Dendrogram')
-plt.ylabel('attractors')
+plt.ylabel('attractors')	
 plt.xlabel('distance [Euclidean]')
 hierarchy.set_link_color_palette(None)
 hierarchy.dendrogram(datts, labels=U_attractors.columns, leaf_rotation=0, orientation='left')
 plt.savefig('attractors_dendrogram.png', format='png', dpi=300); plt.clf()
+
+
+# plots attractor stacked bar plot for sample type content
+att_content =  samples_to_attractors[ ['type','attractor'] ]
+att_counts = pd.crosstab(index=att_content['attractor'], columns=att_content['type'])
+att_counts.to_csv('attractor_content_summary.txt', index=True, header=True, sep="\t")
+att_fracs = att_counts.apply(lambda x: x/sum(x), axis=1)
+att_fracs.plot.bar(stacked=True)
+plt.title('Distribution of samples in attractors')
+plt.ylabel('fraction')
+plt.legend(loc='best')
+plt.savefig('attractors_barplot.png', format='png', dpi=300); plt.clf()
 
 # move all the results to a directory: 
 os.mkdir('attractor_results')
