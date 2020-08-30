@@ -505,4 +505,3 @@ if __name__ == "__main__":
         
 # runs attractor analysis        
 execfile('attractor_analysis.py')
-#execfile('loading_verylazy.py')
