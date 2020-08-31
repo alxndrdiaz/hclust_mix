@@ -29,6 +29,23 @@ sample_labels = attractors.columns.get_level_values(0).tolist()
 type_labels = attractors.columns.get_level_values(1).tolist() 
 attractors.columns = sample_labels
 
+# reconstructs multiIndex header for duplicated column indices (loads correct or incorrect files):
+a_idx = pd.read_csv(att_file, index_col=0, header=None, nrows=1, sep="\t")
+a_idx = a_idx.rename(columns=a_idx.iloc[0], copy=False).iloc[1:].reset_index(drop=True)
+a_idx = list(a_idx.columns.values)
+print; print a_idx; print
+print; print type(a_idx); print
+b_idx = pd.read_csv(att_file, index_col=0, header=0, nrows=1, sep="\t")
+b_idx = b_idx.rename(columns=b_idx.iloc[0], copy=False).iloc[1:].reset_index(drop=True)
+b_idx = list(b_idx.columns.values)
+print; print b_idx ; print
+fullheader = pd.MultiIndex.from_arrays( [a_idx, b_idx], names=['sample','type'] ) 
+print; print type(fullheader), fullheader.nlevels ; print
+print; print fullheader.get_level_values(0).tolist() ; print
+print; print fullheader.get_level_values(1).tolist() ; print
+
+
+
 # total genes and samples used to search attractors
 total_genes = attractors.shape[0]
 total_samples = attractors.shape[1]
