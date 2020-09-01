@@ -66,9 +66,10 @@ for column in U_attractors:
     low_genes.append( len(low_states) )
     zero_genes.append( len(zero_states) )  
     U_attractors[column].to_csv( column + '.tab', index=True, header=True, sep="\t")  
-    high_states.to_csv(  column + '_genes_high.ids', index=True, header=False, sep="\t")
-    low_states.to_csv( column + '_genes_low.ids', index=True, header=False, sep="\t")
-    zero_states.to_csv(  column + '_genes_zero.ids', index=True, header=False, sep="\t") 
+    high_states.to_csv(  column + '_genes_high.ids', header=False, columns=[], sep="\t")
+    low_states.to_csv( column + '_genes_low.ids', header=False, columns=[], sep="\t")
+    if zero_states.shape[0] >= 1:
+       zero_states.to_csv(  column + '_genes_zero.ids', header=False, columns=[], sep="\t") 
 
     
 # finds samples that converged to the same attractor: 
