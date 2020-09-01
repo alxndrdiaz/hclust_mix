@@ -23,8 +23,9 @@ matplotlib.use('Agg')
 from pylab import * 
 import matplotlib.pyplot as plt
 import numpy as np
-import time
 import pandas as pd
+import time
+import sys
 
 #~ number of steps to search attractors
 N = 500
@@ -48,7 +49,10 @@ def load_data(filepath, do_norm, do_log='AUTO'):
     with open(filepath) as f:
         #~ skip sample labels and extracts them as a global list
         global samples_labels; samples_labels=f.next(); samples_labels=samples_labels.rsplit() 
-        global total_samples; total_samples = len(samples_labels)  
+        global total_samples; total_samples = len(samples_labels)
+        #~ checks that sample labels are unique, otherwise stops the script 
+        if len(samples_labels) != len( set(samples_labels) ):
+           sys.exit('Error: Bad format detected, duplicated sample labels in input matrix.')	  
         mat = [line.rstrip().split('\t') for line in f]
     mat = zip(*sorted(zip(*mat), key = lambda c: c[0]))
     genes = [row[0] for row in mat[1:]]
@@ -249,16 +253,21 @@ def plot_relaxation(data, n=10, prune=None):
                  #~ attractor identification ends here
     #~ puts all attractors together and identify convergent and not converged samples
     all_attractors = pd.concat(ATTRACTORS, axis=1, sort=False)
-    CONVERGENT = [ samples_labels[index] for index in convergent_index ]; n_con = len(CONVERGENT)
-    NONCONVERGENT = [ samples_labels[index] for index in nonconvergent_index ] ; n_ncon = len(NONCONVERGENT)    
+    CONVERGENT = [ samples_labels[index] for index in convergent_index ]  
     EXTLABELS = [ labels[index] for index in convergent_index ]    
-    s_header = pd.MultiIndex.from_arrays( [CONVERGENT,EXTLABELS], names=['sample','type'] ) 
-    all_attractors.columns = s_header
-    all_attractors.to_csv('attractors.ats', sep="\t")
-    CONVERGENT = pd.DataFrame( {'sample': CONVERGENT} )
-    CONVERGENT.to_csv('samples_convergent.txt', index=False, header=True, sep="\t")
-    NONCONVERGENT = pd.DataFrame( {'sample': NONCONVERGENT} )
-    NONCONVERGENT.to_csv('samples_non-convergent.txt', index=False, header=True,sep="\t") 
+    all_attractors.columns = pd.MultiIndex.from_arrays( [CONVERGENT,EXTLABELS], names=['sample','type'] ) 
+    all_attractors.to_csv('attractors.ats', sep="\t") 
+    #~ evaluates if all samples converged and if not identify non-converged samples as well 
+    if  len(CONVERGENT) == total_samples:
+        n_con = len(CONVERGENT); n_ncon = 0    
+    else:
+        n_con = len(CONVERGENT)   
+        CONVERGENT = pd.DataFrame( {'sample': CONVERGENT} )
+        CONVERGENT.to_csv('samples_convergent.txt', index=False, header=True, sep="\t")
+        NONCONVERGENT = [ samples_labels[index] for index in nonconvergent_index ]; n_ncon = len(NONCONVERGENT)
+        NONCONVERGENT = pd.DataFrame( {'sample': NONCONVERGENT} )
+        NONCONVERGENT.to_csv('samples_non-convergent.txt', index=False, header=True,sep="\t") 
+    
     #~ attractor search report 
     attractor_search_summary = pd.DataFrame( {'total_samples':[total_samples], 'samples_converged':[n_con], 
     'samples_not_converged':[n_con], 'total_genes':[total_genes] , 'feature_genes':[len(genes)], 'steps':[N], } )
@@ -456,7 +465,7 @@ def plot_landscape(data, res=50, prune=None):
 
     #~ generates image for energy landscape PCA contour plot
     image_6 = '6_PCA_contour_plot.png'
-    plt.savefig(image_6, format='png')
+    plt.savefig(image_6, format='png'); plt.clf()
     
     
 def print_usage():
