@@ -17,7 +17,6 @@ All lines starting with #~ are the commentaries of new modifications.
 
 #~ Python 2.7.16 
 
-#~ first four libraries allow image output files
 import matplotlib 
 matplotlib.use('Agg') 
 from pylab import * 
@@ -86,7 +85,7 @@ def z_score_transform(samples):
 
 
 def normalize(samples, do_log=False):
-    """Normalize expressiond ata
+    """Normalize expressiond data
        samples -- expression matrix (samples in rows)
        do_log -- log2 transform data
                  True, False, 'AUTO'
@@ -474,25 +473,25 @@ def isThisN(X):
     except ValueError:
        return False
 
+
 #~ additional function 2
 def gatherN(args): 
     """Checks N = number of steps to search attractors from command line."""
     for arg in args:
         if  isThisN(arg) == True : 
-            try:
                 nsteps = int( float(arg) )
                 return nsteps
-            except ValueError:
-                 print 'Please enter a valid number of steps: 10, 100, 1e3, 1.5e2, etc.'
-         
 
+          
 def print_usage():
     """Print usage info"""
-    print "hclust.py <filename> [-p -n -f]"
+    print "hclust.py <filename> [-p -n -f N]"
     print "-p : enable pruning"
     print "-n : enable normalization"
     print "-f : enable feature selection"
-   
+    print " N : Number of steps to search attractors (for example 100 or 1e2)"
+    print
+
 
 def main(args):
     """Load data and create all plots.
@@ -500,11 +499,11 @@ def main(args):
     """
     print "running..."
     data = load_data(args[1], '-n' in args)
-    global NSTEPS; NSTEPS = gatherN(args) 
-    print 'number of steps to search attractors N =', NSTEPS 
+    global N; N = gatherN(args) 
+    print 'number of steps to search attractors N =', N
     if '-f' in args: data = feature_selection(data)
     t = plot_pruning(data) if '-p' in args else None
-    plot_relaxation(data, prune = t, n=NSTEPS)
+    plot_relaxation(data, prune = t, n=N)
     plot_weight_matrix(data, prune = t, bin=False)
     plot_landscape(data, prune = t)
     print
@@ -523,5 +522,5 @@ if __name__ == "__main__":
         main(args)
         
         
-# runs attractor analysis        
+#~ runs attractor analysis        
 execfile('attractor_analysis.py')
