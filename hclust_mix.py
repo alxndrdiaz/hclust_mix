@@ -27,9 +27,6 @@ import pandas as pd
 import time
 import sys
 
-#~ number of steps to search attractors
-N = 500
-
 
 def load_data(filepath, do_norm, do_log='AUTO'):
     """Load tab separated expression data.
@@ -466,26 +463,48 @@ def plot_landscape(data, res=50, prune=None):
     #~ generates image for energy landscape PCA contour plot
     image_6 = '6_PCA_contour_plot.png'
     plt.savefig(image_6, format='png'); plt.clf()
-    
-    
+
+
+#~  additional function 1
+def isThisN(X):
+    """Checks if X can be used as number of steps, if float transforms to closest integer."""
+    try:  
+       int(float(X))
+       return True
+    except ValueError:
+       return False
+
+#~ additional function 2
+def gatherN(args): 
+    """Checks N = number of steps to search attractors from command line."""
+    for arg in args:
+        if  isThisN(arg) == True : 
+            try:
+                nsteps = int( float(arg) )
+                return nsteps
+            except ValueError:
+                 print 'Please enter a valid number of steps: 10, 100, 1e3, 1.5e2, etc.'
+         
+
 def print_usage():
     """Print usage info"""
     print "hclust.py <filename> [-p -n -f]"
     print "-p : enable pruning"
     print "-n : enable normalization"
     print "-f : enable feature selection"
-
+   
 
 def main(args):
     """Load data and create all plots.
        args -- command line arguments
     """
-
     print "running..."
     data = load_data(args[1], '-n' in args)
+    global NSTEPS; NSTEPS = gatherN(args) 
+    print 'number of steps to search attractors N =', NSTEPS 
     if '-f' in args: data = feature_selection(data)
     t = plot_pruning(data) if '-p' in args else None
-    plot_relaxation(data, prune = t, n=N)
+    plot_relaxation(data, prune = t, n=NSTEPS)
     plot_weight_matrix(data, prune = t, bin=False)
     plot_landscape(data, prune = t)
     print
