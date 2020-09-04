@@ -79,7 +79,7 @@ This column labels are from the example data set in this guide ( `test_yeoh_redu
 Syntax: 
 
 ```shell
-hclust.py dataset_dir/expresion_matrix.tsv -n -f -p N
+hclust_mix.py dataset_dir/expresion_matrix.tsv -n -f -p N
 ```
 Where:
 1. -n : enable normalization
