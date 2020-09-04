@@ -13,10 +13,9 @@ do
 echo 'processing' $matfile
 results_dir=$(basename $matfile .tsv)
 mkdir $results_dir
-echo; python hclust_mix.py $matfile -n -f -p ;  echo
+echo; python hclust_mix.py $matfile -n -f -p 500;  echo
 mv attractor_results/ $results_dir
 mv *.{ats,png,txt} $results_dir
 mv $results_dir $output_dir
 done
 echo; echo results saved to $output_dir; echo  
-
