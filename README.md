@@ -51,8 +51,8 @@ conda deactivate
 Both counts or normalized matrix are allowed, you only should remember to normalize if counts are provided, rows for genes and columns for samples. Additionally two column labels are required in the following order: (1) unique sample labels to identify each sample, (2) type labels that identify a condition, cell type/line or previous classification of samples. This is required because the algorithm will assign samples that converge to the same attractor to the same cluster and this is then compared to the known type labels. As an example run     
 
 
-```python
-checkmat_format.py
+```shell
+python checkmat_format.py
 ```
 
 The output should look like this: 
