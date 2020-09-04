@@ -72,7 +72,7 @@ Matrix format is correct.
 
 ```
 
-This column labels are for the test data set in this guide ( `test_yeoh_reduced/yeoh_reduced.tsv` directory)
+This column labels are from the test data set in this guide ( `test_yeoh_reduced/yeoh_reduced.tsv`).
 
 
 ### 2.3 How to use
