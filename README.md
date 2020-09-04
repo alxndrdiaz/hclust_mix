@@ -40,7 +40,7 @@ conda activate envhmix
 ```shell
 conda install -c conda-forge numpy scipy pandas scikit-learn matplotlib seaborn	
 ```
-During the following steps this environment should be active, if you wish to return to the base/normal environment, only use: 
+During the following steps this environment should be active in order to run the tests and check the example data sets, if you wish to return to the base/normal environment you only have to exit using:
 
 ```shell
 conda deactivate
@@ -72,7 +72,7 @@ Matrix format is correct.
 
 ```
 
-This column labels are from the test data set in this guide ( `test_yeoh_reduced/yeoh_reduced.tsv`).
+This column labels are from the example data set in this guide ( `test_yeoh_reduced/yeoh_reduced.tsv`). In this microarray data set (86 samples, 50 genes) the type labels correspond to cancer sub-types, specifically acute lymphoblastic leukemia (ALL) sub-types from [Yeoh et al. Cancer Cell (2002)](https://www.cell.com/cancer-cell/fulltext/S1535-6108(02)00032-6). Original file can be downloaded from hclust 1.0 tutorial, [here](http://bioinformatics.org.au/tools/hclust/bin/hclust.zip).
 
 
 ### 2.3 How to use
