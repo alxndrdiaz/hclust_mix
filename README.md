@@ -9,7 +9,7 @@ of Hopfield networks for clustering, feature selection and network inference" [s
 
 ## 1.  Hopfield network model and hclust workflow
 
-In 1982 John Hopfield proposed a model of neural network to understand how neurons can storage information. Nodes in the network are neurons with binary states (-1,+1) and edges between them are called weights, these can be updated according to a rule called Hebb's rule. Neuron states can be updated using these weights. An important property of  this network is that it can converge from an initial state to a stable state called an attractor, this convergence is achieved by minimizing an "energy function", [Hopfield PNAS (1982)](https://www.pnas.org/content/79/8/2554); [Rojas Springer-Verlag (1996)](http://page.mi.fu-berlin.de/rojas/neural/index.html.html). This type of neural network can be used for retrieving patterns that have been corrupted by noise, a good illustrative example can be found in [this Jupyter notebook by Filippo Galli](https://github.com/philipjk/genetic_algorithm_optimization_sklearn-based/blob/master/hopfield_networks.ipynb). 
+In 1982 John Hopfield proposed a model of neural network to understand how neurons can storage information. Nodes in the network are neurons with binary states (-1,+1) and edges between them are called weights, these can be updated according to a rule called Hebb's rule. Neuron states can be updated using these weights. An important property of  this network is that it can converge from an initial state to a stable state called an attractor, this convergence is achieved by minimizing an *energy function*, [Hopfield PNAS (1982)](https://www.pnas.org/content/79/8/2554); [Rojas Springer-Verlag (1996)](http://page.mi.fu-berlin.de/rojas/neural/index.html.html). This type of neural network can be used for retrieving patterns that have been corrupted by noise, a good illustrative example can be found in [this Jupyter notebook by Filippo Galli](https://github.com/philipjk/genetic_algorithm_optimization_sklearn-based/blob/master/hopfield_networks.ipynb). 
 
 The model proposed by Maetschke and Mark Ragan borrows this idea, but instead of neurons, nodes are genes and weights represent co-expresion, the initial pluripotent states can converge to an attractor that represents a differentiated cell state. Additionally they use a ternary set of node states (-1, 0, +1),  [Maetschke and Mark Ragan, Bioinformatics (2014)](https://academic.oup.com/bioinformatics/article/30/9/1273/234782); [Fard et al. npj Syst Biol Appl 2, (2016)](https://www.nature.com/articles/npjsba20161). The basic steps of hclust workflow are: 
 
@@ -76,7 +76,7 @@ This column labels are from the example data set in this guide ( `test_yeoh_redu
 
 
 ### 2.3 How to use
-In order to run the script, the syntax is as follows: 
+Syntax: 
 
 ```shell
 hclust.py dataset_dir/expresion_matrix.tsv -n -f -p N
@@ -86,6 +86,19 @@ Where:
 2. -f : enable feature selection
 3. -p : enable pruning
 4.  N : Number of steps to search attractors (for example 100 or 1e2)
+
+Now, let's run the script using the example data set: 
+
+```shell
+python hclust_mix.py test_yeoh_reduced/yeoh_reduced.tsv -p 10
+```
+Note that the following is equivalent:
+
+```shell
+python hclust_mix.py test_yeoh_reduced/yeoh_reduced.tsv -p 1e1
+```
+So, if you would like to use for example *10000* steps you can use *1e4* instead.  
+
 
 ### 2.4 Results
 
