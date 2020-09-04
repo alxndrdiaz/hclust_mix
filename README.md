@@ -22,15 +22,57 @@ The model proposed by Maetschke and Mark Ragan borrows this idea, but instead of
 
 
 ## 2. Usage
+Only works in Linux (Ubuntu 18.04.4 LTS), but you could try to set up a conda environment in other OS's.   
 
-Describe what each script makes, the output content and how to run each one. 
 
 ### 2.2 Requirements
-The script requires Python 2.7, and the libraries ......, If you would like to make a virtual environment use: bla bla bla 
+The script requires Python 2.7.16 with numpy, scipy, pandas, scikit-learn, and matplotlib/seaborn. An easy way to make it work is to use the following steps in [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/) (should work for versions >= 4.8.3) to create and activate an environment:
+
+ 
+```shell
+conda create --name envhmix python=2.7.16
+```
+
+```shell
+conda activate envhmix
+```
+
+```shell
+conda install -c conda-forge numpy scipy pandas scikit-learn matplotlib seaborn	
+```
+During the following steps this environment should be active, if you wish to return to the base/normal environment, only use: 
+
+```shell
+conda deactivate
+```
 
 
-### 2.2 Expression matrix format
+### 2.2 Gene expression matrix format
+Both counts or normalized matrix are allowed, you only should remember to normalize if counts are provided, rows for genes and columns for samples. Additionally two column labels are required in the following order: (1) unique sample labels to identify each sample, (2) type labels that identify a condition, cell type/line or previous classification of samples. This is required because the algorithm will assign samples that converge to the same attractor to the same cluster and this is then compared to the known type labels. As an example run     
 
+
+```python
+checkmat_format.py
+```
+
+The output should look like this: 
+
+```shell
+
+sample_labels: 
+ 
+['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85']
+
+
+type_labels: 
+ 
+['B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'B-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL', 'T-ALL']
+
+Matrix format is correct. 
+
+```
+
+This column labels are for the test data set in this guide ( `test_yeoh_reduced/yeoh_reduced.tsv` directory)
 
 
 ### 2.3 How to use
