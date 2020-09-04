@@ -25,6 +25,20 @@ The model proposed by Maetschke and Mark Ragan borrows this idea, but instead of
 
 Describe what each script makes, the output content and how to run each one. 
 
+### 2.2 Requirements
+The script requires Python 2.7, and the libraries ......, If you would like to make a virtual environment use: bla bla bla 
+
+
+### 2.2 Expression matrix format
+
+
+
+### 2.3 How to use
+
+
+
+### 2.4 Results
+
 ![relaxation](test_results_yeoh_reduced/1_relaxation_state_matrix.png)
 
 ![pruning](test_results_yeoh_reduced/3_pruning_threesholds.png)
