@@ -84,7 +84,7 @@ hclust_mix.py dataset_dir/expresion_matrix.tsv -n -f -p N
 Where:
 1. -n : enable normalization
 2. -f : enable feature selection
-3. -p : enable pruning
+3. -p : enable pruning of the initial weight matrix 
 4.  N : Number of steps to search attractors (for example 100 or 1e2)
 
 Now, let's run the script using the example data set: 
