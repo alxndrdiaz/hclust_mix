@@ -485,7 +485,7 @@ def gatherN(args):
           
 def print_usage():
     """Print usage info"""
-    print "hclust.py <filename> [-p -n -f N]"
+    print "hclust_mix.py <filename> [-p -n -f N]"
     print "-p : enable pruning"
     print "-n : enable normalization"
     print "-f : enable feature selection"
