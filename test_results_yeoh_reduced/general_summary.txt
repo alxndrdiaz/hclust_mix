@@ -1,0 +1,2 @@
+total_genes	total_samples	unique_attractors
+50	86	2
