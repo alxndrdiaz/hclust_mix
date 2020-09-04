@@ -13,9 +13,8 @@ tidx = pd.read_csv(matfile, index_col=0, header=[0,1], nrows=1, skipinitialspace
 if isinstance(tidx.columns, pd.MultiIndex):
    sample_labels = tidx.columns.get_level_values(0).tolist() 
    type_labels = tidx.columns.get_level_values(1).tolist() 
-   print; print 'sample labels: \n \n', sample_labels; print
-   print; print 'type labels: \n \n', type_labels; print
+   print; print 'sample_labels: \n \n', sample_labels; print
+   print; print 'type_labels: \n \n', type_labels; print
    print 'Matrix format is correct. \n'   
 else: 
    print '\n Format is incorrect. Please provide unique labels for samples. \n'  
-
