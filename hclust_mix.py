@@ -266,7 +266,7 @@ def plot_relaxation(data, n=10, prune=None):
     
     #~ attractor search report 
     attractor_search_summary = pd.DataFrame( {'total_samples':[total_samples], 'samples_converged':[n_con], 
-    'samples_not_converged':[n_con], 'total_genes':[total_genes] , 'feature_genes':[len(genes)], 'steps':[N], } )
+    'samples_not_converged':[n_ncon], 'total_genes':[total_genes] , 'feature_genes':[len(genes)], 'steps':[N], } )
 
     attractor_search_summary = attractor_search_summary.reindex(columns = ['total_samples','samples_converged','samples_not_converged', 'total_genes', 'feature_genes', 'steps']) 
     
