@@ -21,11 +21,11 @@ The model proposed by Maetschke and Mark Ragan borrows this idea, but instead of
 
 
 
-## 2. Usage
+## 2.  Usage
 Only works in Linux (Ubuntu 18.04.4 LTS), but you could try to set up a conda environment in other OS's.   
 
 
-### 2.2 Requirements
+### 2.2  Requirements
 The script requires Python 2.7.16 with numpy, scipy, pandas, scikit-learn, and matplotlib/seaborn. An easy way to make it work is to use the following steps in [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/) (should work for versions >= 4.8.3) to create and activate an environment:
 
  
@@ -47,7 +47,7 @@ conda deactivate
 ```
 
 
-### 2.2 Gene expression matrix format
+###  2.2 Gene expression matrix format
 Both counts or normalized matrix are allowed, you only should remember to normalize if counts are provided, rows for genes and columns for samples. Additionally two column labels are required in the following order: (1) unique sample labels to identify each sample, (2) type labels that identify a condition, cell type/line or previous classification of samples. This is required because the algorithm will assign samples that converge to the same attractor to the same cluster and this is then compared to the known type labels. As an example run     
 
 
@@ -75,7 +75,7 @@ Matrix format is correct.
 This column labels are from the example data set in this guide ( `test_yeoh_reduced/yeoh_reduced.tsv`). In this microarray data set (86 samples, 50 genes) the type labels correspond to cancer sub-types, specifically acute lymphoblastic leukemia (ALL) sub-types from [Yeoh et al. Cancer Cell (2002)](https://www.cell.com/cancer-cell/fulltext/S1535-6108(02)00032-6). Original file can be downloaded from hclust 1.0 tutorial, [here](http://bioinformatics.org.au/tools/hclust/bin/hclust.zip).
 
 
-### 2.3 How to use
+### 2.3  How to use
 Syntax: 
 
 ```shell
@@ -100,7 +100,7 @@ python hclust_mix.py test_yeoh_reduced/yeoh_reduced.tsv -p 1e1
 So, if you would like to use for example *10000* steps you can use *1e4* instead.  
 
 
-### 2.4 Results
+### 2.4  Results
 
 ![relaxation](test_results_yeoh_reduced/1_relaxation_state_matrix.png)
 
@@ -114,6 +114,9 @@ So, if you would like to use for example *10000* steps you can use *1e4* instead
 
 ![heatmap](test_results_yeoh_reduced/attractors_heatmap.png)
 
+
+### 2.4  Other examples
+Explain De Souto data sets and how to process them.
 
 
 ## 3. Limitations
