@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# runs hclust_mix on 29 data sets in de_souto_datasets/ folder, each matrix has two headers, the first header contains unique sample labels, the second header contains a type label (many samples can have the sampe type label) related to the condition, cell line, etc.  
+# runs hclust_mix on 29 data sets in de_souto_datasets/ folder, each matrix has two headers, the first header contains unique sample labels, 
+# the second header contains a type label (many samples can have the sampe type label) related to the condition, cell line, etc.  
 
 
 input_dir='de_souto_datasets/'
