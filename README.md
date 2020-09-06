@@ -125,7 +125,7 @@ All results described for this example are available in the `test_results_yeoh_r
 Figure 1: 1_relaxation_state_matrix.png. Shows the transposed expression matrix, genes in columns and samples as rows for N relaxation steps. This is helpful to visualize how the initial matrix converges to attractors. However, it becomes difficult to visualize for large N (N = 10 in this example).   
 
 ![pruning](test_results_yeoh_reduced/3_pruning_threesholds.png)<br/>
-Figure 2: 3_pruning_threesholds.png. If the initial weight matrix is pruned this shows the True Rand Index (TRI), Estimated Rand Index (ERI), and density of the initial weight matrix, dashed vertical line indicates the best estimated pruning threshold for the data set. Pruning means that initial weights that are too low are removed by searching this threshold. 
+Figure 2: 3_pruning_threesholds.png. If the initial weight matrix is pruned this shows the True Rand Index (TRI), Estimated Rand Index (ERI), and density of the initial weight matrix, dashed vertical line indicates the best estimated pruning threshold for the data set. Density is defined as the percentage of non-zero entries in the weight matrix. Pruning means that initial weights that are too low are removed by searching this threshold. 
 
 ![contour](test_results_yeoh_reduced/6_PCA_contour_plot.png)<br/>
 Figure 3: 6_PCA_contour_plot.png. A 2-dimensional PCA space showing samples (colored by type) converged to attractors (green dots in this example). Might be difficult to visualize for very large number of samples. 
