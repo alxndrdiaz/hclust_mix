@@ -105,7 +105,7 @@ So, if you would like to use for example *1000* steps you can use *1e3* instead.
 
 
 ### 2.4  Results
-The following output files are saved in the folder were the script was extracted:
+All results described for this example are available in the `test_results_yeoh_reduced/` folder. Output files are saved in the folder were the script was extracted:
 
 1. general_summary.txt : total_genes, total_samples, unique_attractors. 
 2. attractor_summary.txt: attractor (attractor label: A1, A2, etc.), genes_high (+1), genes_low (-1), genes_zero (0), nsamples (number of samples that converged to the attractor).
@@ -119,21 +119,25 @@ The following output files are saved in the folder were the script was extracted
  2. Gene state predictions (-1, 0, +1) for each attractor: .ids files.
  3. samples_attractors.tab (tab-delimited): sample, type, attractor for all converged samples. 
  
- Additionally nine plots are generated, here seven of them are described, 4_energy_landscape.png and 5_PCA_landscape.png represent energy function landscape in PCA space, but they are omitted here because they are only useful for small number of samples and are better understood using a dynamic visualization tool, see section 2.4 below.  
+ Additionally nine plots are generated, here six of them are described, 4_energy_landscape.png and 5_PCA_landscape.png represent energy function landscape in PCA space, but they are omitted here because they are only useful for small number of samples and are better understood using a dynamic visualization tool, see section 2.4 below. Initial weight matrix plot (2_weight_matrix.png) is also omitted here.  
 
-![relaxation](test_results_yeoh_reduced/1_relaxation_state_matrix.png)
-Plot: 1_relaxation_state_matrix.png. Shows the transposed expression matrix, genes in columns and samples as rows, for N relaxation steps. This is helpful to visualize how the initial matrix converges to attractors. However, it becomes difficult to visualize for large N.   
+![relaxation](test_results_yeoh_reduced/1_relaxation_state_matrix.png)<br/> 
+Figure 1: 1_relaxation_state_matrix.png. Shows the transposed expression matrix, genes in columns and samples as rows for N relaxation steps. This is helpful to visualize how the initial matrix converges to attractors. However, it becomes difficult to visualize for large N (N = 10 in this example).   
 
-![pruning](test_results_yeoh_reduced/3_pruning_threesholds.png)
+![pruning](test_results_yeoh_reduced/3_pruning_threesholds.png)<br/>
+Figure 2: 3_pruning_threesholds.png. If the initial weight matrix is pruned this shows the True Rand Index (TRI), Estimated Rand Index (ERI), and density of the initial weight matrix, dashed vertical line indicates the best estimated pruning threshold for the data set. Pruning means that initial weights that are too low are removed by searching this threshold. 
 
-![contour](test_results_yeoh_reduced/6_PCA_contour_plot.png)
+![contour](test_results_yeoh_reduced/6_PCA_contour_plot.png)<br/>
+Figure 3: 6_PCA_contour_plot.png. A 2-dimensional PCA space showing samples (colored by type) converged to attractors (green dots in this example). Might be difficult to visualize for very large number of samples. 
 
-![barplot](test_results_yeoh_reduced/attractors_barplot.png)
+![barplot](test_results_yeoh_reduced/attractors_barplot.png)<br/>
+Figure 4: attractors_barplot.png. Fractions of sample types in each attractor. 
 
-![dendrogram](test_results_yeoh_reduced/attractors_dendrogram.png)
+![dendrogram](test_results_yeoh_reduced/attractors_dendrogram.png)<br/>
+Figure 5: attractors_dendrogram.png. Dendrogram to visualize relationships between attractors.
 
-![heatmap](test_results_yeoh_reduced/attractors_heatmap.png)
-
+![heatmap](test_results_yeoh_reduced/attractors_heatmap.png)<br/>
+Figure 6: attractors_heatmap.png. Expresion patterns of attractors, samples clustered by its attractor in columns and genes in rows. In this example there is a very symmetric pattern, that means that genes with a predicted hight state (+1) in one attractor have a low state (-1) in the other one, with a set of genes that are predicted to have a zero state (0) in both attractors.    
 
 ### 2.4  Other examples
 Explain De Souto data sets and how to process them.
@@ -149,7 +153,7 @@ While this approach is quite good ilustrating how differentiated cell states ten
 [Conrad Hal Waddington](https://en.wikipedia.org/wiki/C._H._Waddington) in his 1957 book *The strategy of the genes* (London: George Allen & Unwin) proposed a metaphor to explain how a pluripotent cell becomes a differentiated cell. In his metaphor the pluripotent cell is like a ball at the top of a hill, while this cell differentiates it moves down through the rugged landscape of the hill until it reaches the bottom, that is a fully differentiated state. Genes modify this lanscape to allow only certain paths to exist, in such a way that there is only a limited number of possible outcomes.    
 
 ![Waddington](other_figures/Noble_JExpBio_2015_F2large.jpg) 
-Figure X. Waddington Epigenetic Landscape as a metaphor for cell differentiation. A and B represent different differentiation paths, figure adapted from original Waddington's book from [Noble J. Exp. Biol. (2015)](https://jeb.biologists.org/content/218/6/816).
+Figure 7. Waddington Epigenetic Landscape as a metaphor for cell differentiation. A and B represent different differentiation paths, figure adapted from original Waddington's book from [Noble J. Exp. Biol. (2015)](https://jeb.biologists.org/content/218/6/816).
 
 Finally, a very important aspect of this metaphor is that if cells differentiated in this way, most cells would be observed to differentiate in a very deterministic way and this process should be regulated by a very stable expression of lineage-specific genes. Some authors have proposed that this might not 
 be the case, at least considering new evidence from single-cell transcriptomes, see for example  multilineage priming effect in frog and fish from [Klein et al. Science (2018)](https://science.sciencemag.org/content/360/6392/eaar5780). For a detailed discussion about Waddington's ideas see for example [Huang BioEssays (2011)](https://onlinelibrary.wiley.com/doi/abs/10.1002/bies.201100031) and [Noble J. Exp. Biol. (2015)](https://jeb.biologists.org/content/218/6/816).
