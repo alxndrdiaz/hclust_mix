@@ -119,25 +119,25 @@ All results described for this example are available in the `test_results_yeoh_r
  2. Gene state predictions (-1, 0, +1) for each attractor: .ids files.
  3. samples_attractors.tab (tab-delimited): sample, type, attractor for all converged samples. 
  
- Additionally nine plots are generated, here six of them are described, 4_energy_landscape.png and 5_PCA_landscape.png represent energy function landscape in PCA space, but they are omitted here because they are only useful for small number of samples and are better understood using a dynamic visualization tool, see section 2.4 below. Initial weight matrix plot (2_weight_matrix.png) is also omitted here.  
+ Additionally nine plots are generated, here six of them are described, 4_energy_landscape.png and 5_PCA_landscape.png represent energy function landscape in PCA space, but they are omitted here because they are only useful for small number of samples and are better understood using a dynamic visualization tool, see section 2.4 below. Initial weight matrix plot (2_weight_matrix.png) is also omitted here.<br/><br/>
 
-![relaxation](test_results_yeoh_reduced/1_relaxation_state_matrix.png)<br/> 
+![relaxation](test_results_yeoh_reduced/1_relaxation_state_matrix.png)<br/><br/> 
 Figure 1: 1_relaxation_state_matrix.png. Shows the transposed expression matrix, genes in columns and samples as rows for N relaxation steps. This is helpful to visualize how the initial matrix converges to attractors. However, it becomes difficult to visualize for large N (N = 10 in this example).   
 
 ![pruning](test_results_yeoh_reduced/3_pruning_threesholds.png)<br/>
-Figure 2: 3_pruning_threesholds.png. If the initial weight matrix is pruned this shows the True Rand Index (TRI), Estimated Rand Index (ERI), and density of the initial weight matrix, dashed vertical line indicates the best estimated pruning threshold for the data set. Density is defined as the percentage of non-zero entries in the weight matrix. Pruning means that initial weights that are too low are removed by searching this threshold. 
+Figure 2: 3_pruning_threesholds.png. If the initial weight matrix is pruned this shows the True Rand Index (TRI), Estimated Rand Index (ERI), and density of the initial weight matrix, dashed vertical line indicates the best estimated pruning threshold for the data set. Density is defined as the percentage of non-zero entries in the weight matrix. Pruning means that initial weights that are too low are removed by searching this threshold.<br/><br/>
 
 ![contour](test_results_yeoh_reduced/6_PCA_contour_plot.png)<br/>
-Figure 3: 6_PCA_contour_plot.png. A 2-dimensional PCA space showing samples (colored by type) converged to attractors (green dots in this example). Might be difficult to visualize for very large number of samples. 
+Figure 3: 6_PCA_contour_plot.png. A 2-dimensional PCA space showing samples (colored by type) converged to attractors (green dots in this example). Might be difficult to visualize for very large number of samples.<br/><br/>
 
 ![barplot](test_results_yeoh_reduced/attractors_barplot.png)<br/>
-Figure 4: attractors_barplot.png. Fractions of sample types in each attractor. 
+Figure 4: attractors_barplot.png. Fractions of sample types in each attractor.<br/><br/> 
 
 ![dendrogram](test_results_yeoh_reduced/attractors_dendrogram.png)<br/>
-Figure 5: attractors_dendrogram.png. Dendrogram to visualize relationships between attractors.
+Figure 5: attractors_dendrogram.png. Dendrogram to visualize relationships between attractors.<br/><br/>
 
 ![heatmap](test_results_yeoh_reduced/attractors_heatmap.png)<br/>
-Figure 6: attractors_heatmap.png. Expresion patterns of attractors, samples clustered by its attractor in columns and genes in rows. In this example there is a very symmetric pattern, that means that genes with a predicted hight state (+1) in one attractor have a low state (-1) in the other one, with a set of genes that are predicted to have a zero state (0) in both attractors.    
+Figure 6: attractors_heatmap.png. Expresion patterns of attractors, samples clustered by its attractor in columns and genes in rows. In this example there is a very symmetric pattern, that means that genes with a predicted hight state (+1) in one attractor have a low state (-1) in the other one, with a set of genes that are predicted to have a zero state (0) in both attractors.<br/><br/>    
 
 ### 2.4  Other examples
 Explain De Souto data sets and how to process them.
