@@ -142,6 +142,13 @@ Figure 6: attractors_heatmap.png. Expresion patterns of attractors, samples clus
 ### 2.4  Other examples
 Explain De Souto data sets and how to process them.
 
+```shell
+unzip -q de_souto_datasets.zip
+```
+
+```shell
+./tests_hclustmix.sh
+```
 
 ## 3. Limitations
 
