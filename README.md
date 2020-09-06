@@ -22,7 +22,11 @@ The model proposed by Maetschke and Mark Ragan borrows this idea, but instead of
 
 
 ## 2.  Usage
-Only works in Linux (Ubuntu 18.04.4 LTS), but you could try to set up a conda environment in other OS's.   
+The current version has only been tested in Linux (Ubuntu 18.04.4 LTS), but you could try to set up a conda environment in other OS's, see the requirements below. After downloading the repository, you can use *unzip* to extract the files: 
+
+```shell
+unzip -q hclust_mix-master.zip
+```
 
 
 ### 2.2  Requirements
@@ -72,7 +76,7 @@ Matrix format is correct.
 
 ```
 
-This column labels are from the example data set in this guide ( `test_yeoh_reduced/yeoh_reduced.tsv`). In this microarray data set (86 samples, 50 genes) the type labels correspond to cancer sub-types, specifically acute lymphoblastic leukemia (ALL) sub-types from [Yeoh et al. Cancer Cell (2002)](https://www.cell.com/cancer-cell/fulltext/S1535-6108(02)00032-6). Original file can be downloaded from hclust 1.0 tutorial, [here](http://bioinformatics.org.au/tools/hclust/bin/hclust.zip).
+This column labels are from the example data set in this guide (`test_yeoh_reduced/yeoh_reduced.tsv`). In this microarray data set (86 samples, 50 genes) the type labels correspond to cancer sub-types, specifically acute lymphoblastic leukemia (ALL) sub-types from [Yeoh et al. Cancer Cell (2002)](https://www.cell.com/cancer-cell/fulltext/S1535-6108(02)00032-6). Original file can be downloaded from hclust 1.0 tutorial, [here](http://bioinformatics.org.au/tools/hclust/bin/hclust.zip).
 
 
 ### 2.3  How to use
@@ -97,10 +101,23 @@ Note that the following is equivalent:
 ```shell
 python hclust_mix.py test_yeoh_reduced/yeoh_reduced.tsv -p 1e1
 ```
-So, if you would like to use for example *10000* steps you can use *1e4* instead.  
+So, if you would like to use for example *1000* steps you can use *1e3* instead.  
 
 
 ### 2.4  Results
+The following output files are saved in the folder were the script was extracted:
+
+1. general_summary.txt : total_genes, total_samples, unique_attractors. 
+2. attractor_summary.txt: attractor (attractor label: A1, A2, etc.), genes_high (+1), genes_low (-1), genes_zero (0), nsamples (number of samples that converged to the attractor).
+3. attractor_search_summary.txt: total_samples, samples_converged, samples_not_converged, total_genes, feature_genes (total number of genes selected as features), steps (number of steps used to search the attractors).
+4. attractor_content_summary.txt: contains the attractor labels and the number of samples per type contained in each of them.  
+5. attractors.ats: contains genes in rows and samples converged to attractor states in columns. 
+ 
+ Detailed results for each attractor are saved in `attractor_results/`:
+ 
+ 1. Attactor state .tab files. 
+ 2. Gene state predictions (-1, 0, +1) for each attractor: .ids files.
+ 3. samples_attractors.tab (tab-delimited): sample, type, attractor for all converged samples. 
 
 ![relaxation](test_results_yeoh_reduced/1_relaxation_state_matrix.png)
 
