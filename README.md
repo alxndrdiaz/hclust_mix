@@ -118,8 +118,11 @@ The following output files are saved in the folder were the script was extracted
  1. Attactor state .tab files. 
  2. Gene state predictions (-1, 0, +1) for each attractor: .ids files.
  3. samples_attractors.tab (tab-delimited): sample, type, attractor for all converged samples. 
+ 
+ Additionally nine plots are generated, here seven of them are described, 4_energy_landscape.png and 5_PCA_landscape.png represent energy function landscape in PCA space, but they are omitted here because they are only useful for small number of samples and are better understood using a dynamic visualization tool, see section 2.4 below.  
 
 ![relaxation](test_results_yeoh_reduced/1_relaxation_state_matrix.png)
+Plot: 1_relaxation_state_matrix.png. Shows the transposed expression matrix, genes in columns and samples as rows, for N relaxation steps. This is helpful to visualize how the initial matrix converges to attractors. However, it becomes difficult to visualize for large N.   
 
 ![pruning](test_results_yeoh_reduced/3_pruning_threesholds.png)
 
