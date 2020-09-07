@@ -1,6 +1,6 @@
 # What is hclust_mix? 
 
-h: Hopfield networks, clust: clustering, mix: attractor analysis and some tools to process the data.
+h: Hopfield networks, clust: clustering, mix: attractor analysis.
 
 These tools are adapted for preprocessing and analysis of time-course developmental transcriptomic data using hclust 1.0, 
 the algorithm was proposed by Stefan Maetschke and Mark Ragan to characterize cancer subtypes, [Maetschke and Mark Ragan, Bioinformatics (2014)](https://academic.oup.com/bioinformatics/article/30/9/1273/234782). The original version of hclust along with a short tutorial are available at:
@@ -18,6 +18,7 @@ The model proposed by Maetschke and Mark Ragan borrows this idea, but instead of
 2. Compute initial weight matrix.
 3. Iterate to minimize energy function until convergence to attactor states. 
 4. Visualization of energy landscape in PCA space.
+
 
 
 
@@ -125,13 +126,13 @@ All results described for this example are available in the `test_results_yeoh_r
 Figure 1: 1_relaxation_state_matrix.png. Shows the transposed expression matrix, genes in columns and samples as rows for N relaxation steps. This is helpful to visualize how the initial matrix converges to attractors. However, it becomes difficult to visualize for large N (N = 10 in this example).   
 
 ![pruning](test_results_yeoh_reduced/3_pruning_threesholds.png)<br/>
-Figure 2: 3_pruning_threesholds.png. If the initial weight matrix is pruned this shows the True Rand Index (TRI), Estimated Rand Index (ERI), and density of the initial weight matrix, dashed vertical line indicates the best estimated pruning threshold for the data set. Density is defined as the percentage of non-zero entries in the weight matrix. Pruning means that initial weights that are too low are removed by searching this threshold.<br/><br/>
+Figure 2: 3_pruning_threesholds.png. If the initial weight matrix is pruned this shows the True Rand Index (TRI), Estimated Rand Index (ERI), and density of the initial weight matrix, dashed vertical line indicates the best estimated pruning threshold for the data set. Density is defined as the percentage of non-zero entries in the weight matrix. Pruning means that initial weights that are lower than the threshold are set to zero.<br/><br/>
 
 ![contour](test_results_yeoh_reduced/6_PCA_contour_plot.png)<br/>
 Figure 3: 6_PCA_contour_plot.png. A 2-dimensional PCA space showing samples (colored by type) converged to attractors (green dots in this example). Might be difficult to visualize for very large number of samples.<br/><br/>
 
 ![barplot](test_results_yeoh_reduced/attractors_barplot.png)<br/>
-Figure 4: attractors_barplot.png. Fractions of sample types in each attractor.<br/><br/> 
+Figure 4: attractors_barplot.png. Fractions of sample types in each attractor. Only one sample (*sample_label: 15*, *type_label: B-ALL*) was misclassified (converged to attractor *A2* associated to type *T-ALL*) as reported by  [Maetschke and Mark Ragan, Bioinformatics (2014)](https://academic.oup.com/bioinformatics/article/30/9/1273/234782). <br/><br/> 
 
 ![dendrogram](test_results_yeoh_reduced/attractors_dendrogram.png)<br/>
 Figure 5: attractors_dendrogram.png. Dendrogram to visualize relationships between attractors.<br/><br/>
