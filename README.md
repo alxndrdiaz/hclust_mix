@@ -140,7 +140,7 @@ Figure 5: attractors_dendrogram.png. Dendrogram to visualize relationships betwe
 Figure 6: attractors_heatmap.png. Expresion patterns of attractors, samples clustered by its attractor in columns and genes in rows. In this example there is a very symmetric pattern, that means that genes with a predicted hight state (+1) in one attractor have a low state (-1) in the other one, with a set of genes that are predicted to have a zero state (0) in both attractors.<br/><br/>    
 
 ### 2.4  Other examples
-Explain De Souto data sets and how to process them.
+Other cancer gene expression data sets are available in `de_souto_datasets.zip` from [de Souto et al. Bioinformatics (2008)](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-497); [Maetschke and Mark Ragan, Bioinformatics (2014)](https://academic.oup.com/bioinformatics/article/30/9/1273/234782) , it originally contained 35 expression matrices and can be downloaded [here](http://bioinformatics.org.au/tools/hclust/data/de_souto.zip), only 29 matrices that had unique sample labels were used (omitted matrices: dc_garber-2001, dc_khan-2001, sc_bhattacharjee-2001, sc_golub-1999-v1, sc_golub-1999-v2, sc_west-2001). If you would like to process this set, only use the following: 
 
 ```shell
 unzip -q de_souto_datasets.zip
@@ -149,6 +149,18 @@ unzip -q de_souto_datasets.zip
 ```shell
 ./tests_hclustmix.sh
 ```
+
+By default the script uses *N = 500* steps for searching attractors for all matrices, but another values can be used as well. Results will be saved in a folder called `all_results_de_souto_datasets/`, if you would like only to check the results without running the script: 
+
+```shell
+unzip -q test_results_de_souto_datasets.zip
+```
+To see how hclust 1.0 works use:
+
+```shell
+python hclust.py test_yeoh_reduced/yeoh_reduced.tsv -p
+ ```
+
 
 ## 3. Limitations
 
