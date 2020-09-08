@@ -201,7 +201,7 @@ be the case, at least considering new evidence from single-cell transcriptomes, 
 
 1. [Simple implementation of a Hopfield network used to restore randomly generated images of corrupted rectangles, Jupyter notebook by Filippo Galli.](https://github.com/philipjk/genetic_algorithm_optimization_sklearn-based/blob/master/hopfield_networks.ipynb)
 
-2. [Hopfield Networks is All You Need by Johannes Brandstetter et al. (2020).](hhttps://ml-jku.github.io/hopfield-layers/)
+2. [Hopfield Networks is All You Need by Johannes Brandstetter et al. (2020).](https://ml-jku.github.io/hopfield-layers/)
 
 
 
