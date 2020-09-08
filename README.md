@@ -4,7 +4,7 @@ hclust 1.0 algorithm was proposed by Stefan Maetschke and Mark Ragan to characte
 [http://bioinformatics.org.au/tools/hclust/](http://bioinformatics.org.au/tools/hclust/). The idea behind their algorithm was to "demonstrate the usage 
 of Hopfield networks for clustering, feature selection and network inference" [see tutorial by Mark Ragan](http://bioinformatics.org.au/tools/hclust/)  applied to transcriptomic data. Specifically it aims to model differentiated cell states as attractor states of a Hopfield Network, and was tested also in 12 single-cell data sets including Haematopoiesis and human stem cell differentiation, [Fard et al. npj Syst Biol Appl 2, (2016)](https://www.nature.com/articles/npjsba20161).
 
-hclust_mix is only a version of hclust that allows the identification of attractor states, the number of steps that it uses to search attractors should be specified by the user. Additionally it extracts the gene states in each attractor. 
+hclust_mix is only a version of hclust that allows the identification of attractor states, the number of steps that it uses to search attractors should be specified by the user. Additionally it extracts the gene states in each attractor and computes Adjusted Rand Index (ARI) and Adjusted Mutual Information score (AMI) for the hclust attractor-based clustering solution. Both of these metrics have values between 0 (random cluster assignment) and 1 (perfect cluster assignment/labeling), both metrics are available in [scikit-learn metrics](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics).   
 
 ## 1.  Hopfield network model and hclust workflow
 
@@ -113,7 +113,7 @@ So, if you would like to use for example *1000* steps you can use *1e3* instead.
 ### 2.4  Results
 All results described for this example are available in the `test_results_yeoh_reduced/` folder. Output files are saved in the folder were the script was extracted:
 
-1. general_summary.txt : total_genes, total_samples, unique_attractors. 
+1. general_summary.txt : total_genes, total_samples, unique_attractors, ARI, AMI. 
 2. attractor_summary.txt: attractor (attractor label: A1, A2, etc.), genes_high (+1), genes_low (-1), genes_zero (0), nsamples (number of samples that converged to the attractor).
 3. attractor_search_summary.txt: total_samples, samples_converged, samples_not_converged, total_genes, feature_genes (total number of genes selected as features), steps (number of steps used to search the attractors).
 4. attractor_content_summary.txt: contains the attractor labels and the number of samples per type contained in each of them.  
