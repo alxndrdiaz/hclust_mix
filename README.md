@@ -1,11 +1,10 @@
 # What is hclust_mix? 
 
-h: Hopfield networks, clust: clustering, mix: attractor analysis.
-
-These tools are adapted for preprocessing and analysis of time-course developmental transcriptomic data using hclust 1.0, 
-the algorithm was proposed by Stefan Maetschke and Mark Ragan to characterize cancer subtypes, [Maetschke and Mark Ragan, Bioinformatics (2014)](https://academic.oup.com/bioinformatics/article/30/9/1273/234782). The original version of hclust along with a short tutorial are available at:
+hclust 1.0 algorithm was proposed by Stefan Maetschke and Mark Ragan to characterize cancer subtypes, [Maetschke and Mark Ragan, Bioinformatics (2014)](https://academic.oup.com/bioinformatics/article/30/9/1273/234782). The original version of hclust along with a short tutorial are available at:
 [http://bioinformatics.org.au/tools/hclust/](http://bioinformatics.org.au/tools/hclust/). The idea behind their algorithm was to "demonstrate the usage 
-of Hopfield networks for clustering, feature selection and network inference" [see tutorial by Mark Ragan](http://bioinformatics.org.au/tools/hclust/)  applied to transcriptomic data. Specifically it aims to model differentiated cell states as attractor states of a Hopfield Network, and was tested in 12 single-cell data sets including Haematopoiesis and human stem cell differentiation, [Fard et al. npj Syst Biol Appl 2, (2016)](https://www.nature.com/articles/npjsba20161).
+of Hopfield networks for clustering, feature selection and network inference" [see tutorial by Mark Ragan](http://bioinformatics.org.au/tools/hclust/)  applied to transcriptomic data. Specifically it aims to model differentiated cell states as attractor states of a Hopfield Network, and was tested also in 12 single-cell data sets including Haematopoiesis and human stem cell differentiation, [Fard et al. npj Syst Biol Appl 2, (2016)](https://www.nature.com/articles/npjsba20161).
+
+hclust_mix is only a version of hclust that allows the identification of attractor states, the number of steps that it uses to search attractors should be specified by the user. Additionally it extracts the gene states in each attractor. 
 
 ## 1.  Hopfield network model and hclust workflow
 
@@ -19,7 +18,7 @@ The model proposed by Maetschke and Mark Ragan borrows this idea, but instead of
 3. Iterate to minimize energy function until convergence to attactor states. 
 4. Visualization of energy landscape in PCA space.
 
-There are important mathematical properties for this type of algorithm: 
+There are important mathematical properties for this type of network: 
 
 1. Symmetric zero-diagonal weight matrix is required for convergence to attractors. 
 2. This property does not provides the exact number of steps required for all states to converge. 
