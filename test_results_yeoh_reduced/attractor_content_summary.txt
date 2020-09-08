@@ -1,3 +1,0 @@
-attractor	B-ALL	T-ALL
-A1	42	0
-A2	1	43
