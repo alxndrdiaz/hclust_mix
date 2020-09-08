@@ -1,3 +1,0 @@
-attractor	genes_high	genes_low	genes_zero	nsamples
-A1	7	18	25	42
-A2	18	7	25	44
