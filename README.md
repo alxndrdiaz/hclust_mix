@@ -171,7 +171,7 @@ python hclust.py test_yeoh_reduced/yeoh_reduced.tsv -p
 
 ## 3. Limitations
 
-While this approach is quite good ilustrating how differentiated cell states tend to stabilize compared to transient cell states, it might not be the the option to choose if you wish to understand or model cell differentiation in general, unless you perform a benchmark analysis to determine that this method outperforms other methods in predicting differentiated cell states. So, if you would like to start learning about cell differentiation models hclust is a good starting point. However, if you are interested in questions related to regulation of cell differentiation using single-cell transcriptomics datasets, there are other packages such as [RNA velocity](http://velocyto.org/), or [Monocle](http://cole-trapnell-lab.github.io/monocle-release/) that provide useful analysis tools. 
+While this approach is quite good ilustrating how differentiated cell states tend to stabilize compared to transient cell states, it might not be the the option to choose if you wish to understand or model cell differentiation in general, unless you perform a benchmark analysis to determine that this method outperforms other methods in predicting differentiated cell states. So, if you would like to start learning about cell differentiation models hclust is a good starting point. However, if you are interested in questions related to regulation of cell differentiation using single-cell transcriptomics datasets, there are other packages such as [RNA velocity](http://velocyto.org/); [La Manno, Nature (2018)](https://www.nature.com/articles/s41586-018-0414-6), or [Monocle](http://cole-trapnell-lab.github.io/monocle-release/); [Trapnell, Nat. Biotechnol. (2014)](https://www.nature.com/articles/nbt.2859) that provide useful analysis tools. 
 
 
 ## 4. Final remarks: Waddington epigenenetic landscape 
@@ -185,6 +185,24 @@ Finally, a very important aspect of this metaphor is that if cells differentiate
 be the case, at least considering new evidence from single-cell transcriptomes, see for example  multilineage priming effect in frog and fish from [Klein et al. Science (2018)](https://science.sciencemag.org/content/360/6392/eaar5780). For a detailed discussion about Waddington's ideas see for example [Huang BioEssays (2011)](https://onlinelibrary.wiley.com/doi/abs/10.1002/bies.201100031) and [Noble J. Exp. Biol. (2015)](https://jeb.biologists.org/content/218/6/816).
 
 ## References
+
+1.	[Briggs, J. A. et al. The dynamics of gene expression in vertebrate embryogenesis at single-cell resolution. Science 360, (2018).](https://science.sciencemag.org/content/360/6392/eaar5780) 
+2.	[de Souto, M. C., Costa, I. G., de Araujo, D. S., Ludermir, T. B. & Schliep, A. Clustering cancer gene expression data: a comparative study. BMC Bioinformatics 9, 497 (2008).](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-497) 
+3.	[Hopfield, J. J. Neural networks and physical systems with emergent collective computational abilities. PNAS 79, 2554–2558 (1982).](https://www.pnas.org/content/79/8/2554) 
+4.	[Huang, S. The molecular and mathematical basis of Waddington’s epigenetic landscape: A framework for post‐Darwinian biology? BioEssays 34, 149–157 (2012).](https://onlinelibrary.wiley.com/doi/abs/10.1002/bies.201100031) 
+5. [ La Manno, G. et al. RNA velocity of single cells. Nature 560, 494–498 (2018).](https://www.nature.com/articles/s41586-018-0414-6)	
+6.	[Maetschke, S. R. & Ragan, M. A. Characterizing cancer subtypes as attractors of Hopfield networks. Bioinformatics 30, 1273–1279 (2014).](https://academic.oup.com/bioinformatics/article/30/9/1273/234782) 
+7.	[Noble, D. Conrad Waddington and the origin of epigenetics. Journal of Experimental Biology 218, 816–818 (2015).](https://jeb.biologists.org/content/218/6/816) 
+8. [Rojas, R. Neural Networks - A Systematic Introduction. Springer-Verlag (1996).](https://page.mi.fu-berlin.de/rojas/neural/) 
+9.	[Trapnell, C. et al. The dynamics and regulators of cell fate decisions are revealed by pseudotemporal ordering of single cells. Nat Biotechnol 32, 381–386 (2014).](https://www.nature.com/articles/nbt.2859)
+10.	[Yeoh, E.-J. et al. Classification, subtype discovery, and prediction of outcome in pediatric acute lymphoblastic leukemia by gene expression profiling. Cancer Cell 1, 133–143 (2002).](https://www.cell.com/cancer-cell/fulltext/S1535-6108(02)00032-6)
+
+## See also: 
+
+1. [Simple implementation of a Hopfield network used to restore randomly generated images of corrupted rectangles, Jupyter notebook by Filippo Galli.](https://github.com/philipjk/genetic_algorithm_optimization_sklearn-based/blob/master/hopfield_networks.ipynb)
+
+2. [Hopfield Networks is All You Need by Hubert Ramsauer et al. (2020)](https://github.com/ml-jku/hopfield-layers)
+
 
 
 
