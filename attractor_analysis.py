@@ -132,7 +132,7 @@ annot=False, linewidths=.00005,
 vmin = -1, vmax=1,  cbar_kws={'ticks':[-1,0,1]}, cmap='vlag', col_colors=colors_list,  
 xticklabels=False, yticklabels=False )
 title 
-plotitle = str(total_samples) + ' samples clustered by N = ' + str( len(att_IDS) ) + ' attractors' + ', genes = ' + str(total_genes) 
+plotitle = str(total_samples) + ' samples clustered by ' + str( len(att_IDS) ) + ' attractors' + ', genes = ' + str(total_genes) 
 att_heatmap.fig.suptitle(plotitle, fontsize=18)
 #saves figure
 att_heatmap.plot
