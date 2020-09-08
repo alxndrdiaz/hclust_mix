@@ -170,7 +170,7 @@ python hclust.py test_yeoh_reduced/yeoh_reduced.tsv -p
 
 ## 3. Limitations
 
-While this approach is quite good ilustrating how we could use a neural network to model stable transcriptional states, it also has disadvantages. It is adequate only to model how an intial static state could converge to a stable state that might be interpreted as a differentiated state. Additionally the mathematical rules that guarantee convergence to attractors are not based in any real-world biological principle, and it might be hard to extrapolate this type of convergence to the real regulatory dynamics that occurs during differentiation processes as discussed by [Maetschke and Mark Ragan, Bioinformatics (2014)](https://academic.oup.com/bioinformatics/article/30/9/1273/234782). This does not mean that Hopfield attractors are useless, in fact they might be useful for other applications, see for example this recent post [by Johannes Brandstetter et al. (2020) about modern Hopfield networks](https://ml-jku.github.io/hopfield-layers/) (they include a link to their publication and repository).  
+While this approach is quite good ilustrating how we could use a neural network to model stable transcriptional states, it also has disadvantages. It is adequate only to model how an intial static state could converge to a stable state that might be interpreted as a differentiated state. Additionally the mathematical rules that guarantee convergence to attractors are not based in any real-world biological principle, and it might be hard to extrapolate this type of convergence to the real regulatory dynamics that occurs during differentiation processes as discussed by [Maetschke and Mark Ragan, Bioinformatics (2014)](https://academic.oup.com/bioinformatics/article/30/9/1273/234782). This does not mean that Hopfield networks are useless, in fact they might be useful for other applications, see for example this recent post [by Johannes Brandstetter et al. (2020) about modern Hopfield networks](https://ml-jku.github.io/hopfield-layers/), they include a link to their publication and repository.  
 
 If you are interested in questions related to regulation of cell differentiation using single-cell transcriptomics data sets, there are other packages such as [RNA velocity](http://velocyto.org/); [La Manno, Nature (2018)](https://www.nature.com/articles/s41586-018-0414-6), or [Monocle](http://cole-trapnell-lab.github.io/monocle-release/); [Trapnell, Nat. Biotechnol. (2014)](https://www.nature.com/articles/nbt.2859) that can handle time-course developmental transcriptomes and might provide more robust predictions. 
 
@@ -182,8 +182,7 @@ If you are interested in questions related to regulation of cell differentiation
 ![Waddington](other_figures/Noble_JExpBio_2015_F2large.jpg) 
 Figure 7. Waddington Epigenetic Landscape as a metaphor for cell differentiation. A and B represent different differentiation paths, figure adapted from original Waddington's book from [Noble J. Exp. Biol. (2015)](https://jeb.biologists.org/content/218/6/816).<br/><br/>
 
-Finally, a very important aspect of this metaphor is that if cells differentiated in this way, most cells would be observed to differentiate in a very deterministic way and this process should be regulated by a very stable expression of lineage-specific genes. Some authors have proposed that this might not 
-be the case, at least considering new evidence from single-cell transcriptomes, see for example  multilineage priming effect in frog and fish from [Klein et al. Science (2018)](https://science.sciencemag.org/content/360/6392/eaar5780). For a detailed discussion about Waddington's ideas see for example [Huang BioEssays (2011)](https://onlinelibrary.wiley.com/doi/abs/10.1002/bies.201100031) and [Noble J. Exp. Biol. (2015)](https://jeb.biologists.org/content/218/6/816).
+Considering new evidence from single-cell transcriptomics, such as multilineage priming effect in frog and fish embryogenesis from [Klein et al. Science (2018)](https://science.sciencemag.org/content/360/6392/eaar5780), it is also possible that differentiation processes are more stochastic than previously thought. For a detailed discussion about Waddington's ideas see for example [Huang BioEssays (2011)](https://onlinelibrary.wiley.com/doi/abs/10.1002/bies.201100031) and [Noble J. Exp. Biol. (2015)](https://jeb.biologists.org/content/218/6/816).
 
 ## References
 
@@ -200,7 +199,7 @@ be the case, at least considering new evidence from single-cell transcriptomes, 
 
 ## See also: 
 
-1. [Simple implementation of a Hopfield network used to restore randomly generated images of corrupted rectangles, Jupyter notebook by Filippo Galli.](https://github.com/philipjk/genetic_algorithm_optimization_sklearn-based/blob/master/hopfield_networks.ipynb)
+1. [Simple implementation of a Hopfield network used to restore randomly generated images of corrupted rectangles, Jupyter notebook by Filippo Galli, (2019).](https://github.com/philipjk/genetic_algorithm_optimization_sklearn-based/blob/master/hopfield_networks.ipynb)
 
 2. [Hopfield Networks is All You Need by Johannes Brandstetter et al. (2020).](https://ml-jku.github.io/hopfield-layers/)
 
