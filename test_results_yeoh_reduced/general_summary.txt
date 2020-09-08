@@ -1,0 +1,2 @@
+total_genes	total_samples	unique_attractors	ARI	AMI
+50	86	2	0.95	0.92

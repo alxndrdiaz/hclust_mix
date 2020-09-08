@@ -1,0 +1,2 @@
+total_samples	samples_converged	samples_not_converged	total_genes	feature_genes	steps
+86	86	0	50	50	10
