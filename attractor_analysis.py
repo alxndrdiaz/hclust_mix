@@ -16,6 +16,7 @@ import glob
 import pandas as pd
 import seaborn as sn
 import matplotlib.pyplot as plt
+from sklearn import metrics
 
 
 # detects current working directory and assigns it to the currentdirectory string:
@@ -44,14 +45,6 @@ for column in U_attractors:
 U_attractors.columns = ucolumns
 # total numbber of unique attractors 
 unique_attractors = U_attractors.shape[1]
-
-
-# generates general summary table:
-general_summary = pd.DataFrame({
-'total_genes': [total_genes],
-'total_samples': [total_samples],
-'unique_attractors': [unique_attractors] })
-general_summary.to_csv('general_summary.txt', index=False, header=True, sep="\t")
 
 
 # extracts genes by state (-1,0,+1) for each attactor:
@@ -100,6 +93,22 @@ samples_to_attractors = samples_to_attractors.reindex( columns = ['sample','type
 samples_to_attractors.to_csv('samples_attractors.tab', index=False, header=True, sep="\t")
 
 
+# computes Adjusted Rand Index (ARI) and Adjusted Mutual Information score (AMI)  
+ARI = metrics.adjusted_rand_score(labels_true=stypes_sorted, labels_pred=atts_sorted)
+ARI = round(ARI, 2) 
+AMI = metrics.adjusted_mutual_info_score(labels_true=stypes_sorted, labels_pred=atts_sorted, average_method='arithmetic')
+AMI = round(AMI, 2) 
+
+# generates general summary table:
+general_summary = pd.DataFrame({
+'total_genes': [total_genes],
+'total_samples': [total_samples],
+'unique_attractors': [unique_attractors], 
+'ARI': [ARI], 'AMI': [AMI]} )
+general_summary = general_summary.reindex(  columns=['total_genes','total_samples', 'unique_attractors', 'ARI', 'AMI']  ) 
+general_summary.to_csv('general_summary.txt', index=False, header=True, sep="\t")
+
+
 # generates attractor summary table: 
 att_IDS=list(U_attractors.columns.values)
 attractor_summary = pd.DataFrame({
@@ -144,14 +153,14 @@ plt.savefig('attractors_dendrogram.png', format='png', dpi=300); plt.clf()
 
 
 # plots attractor stacked bar plot for sample type content
+vl_title = 'Attractor/type' + ', ARI = ' + str(ARI) + ', AMI =' + str(AMI)
 att_content =  samples_to_attractors[ ['type','attractor'] ]
 att_counts = pd.crosstab(index=att_content['attractor'], columns=att_content['type'])
 att_counts = att_counts.reindex( index = att_IDS )
 att_counts.to_csv('attractor_content_summary.txt', index=True, header=True, sep="\t")
 att_fracs = att_counts.apply(lambda x: x/sum(x), axis=1)
 barplot = att_fracs.plot.bar(stacked=True)
-#barplot.set_xticklabels(att_IDS)
-plt.title('Distribution of samples in attractors')
+plt.title(vl_title)
 plt.xlabel('')
 plt.ylabel('fraction')
 plt.legend(bbox_to_anchor=(1.0, 1.0), loc='upper left', ncol=1, fontsize=8)
