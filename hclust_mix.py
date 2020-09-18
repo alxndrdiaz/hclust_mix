@@ -23,8 +23,8 @@ from pylab import *
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import time
 import sys
+#only to measure execution time: import time
 
 
 def load_data(filepath, do_norm, do_log='AUTO'):
@@ -508,7 +508,7 @@ def main(args):
     plot_landscape(data, prune = t)
     print
     print "finished."
-    print "run time =", time.clock(), "seconds"
+    # print "execution time =", time.clock(), "seconds"
     print
     show()
 
